@@ -1,11 +1,20 @@
 package com.example.sysc4806project;
 
-//TODO: entity
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Book {
 
     private String title;
     private String author;
+
+    @Id
     private final long ISBN;
+
+    public Book() {
+        ISBN = 1; //TODO: I just added this to get rid of compilation errors in Inventory
+    }
 
     public Book(String title, String author, long ISBN) {
         this.title = title;
