@@ -12,13 +12,13 @@ public class Book {
     @Id
     private final long ISBN;
     private long price;
-    private long quantity;
+    private int quantity;
 
     public Book() {
         ISBN = 1; //TODO: I just added this to get rid of compilation errors in Inventory
     }
 
-    public Book(String title, String author, long ISBN, long price, long quantity) {
+    public Book(String title, String author, long ISBN, long price, int quantity) {
         this.title = title;
         this.author = author;
         this.ISBN = ISBN;
@@ -58,7 +58,7 @@ public class Book {
         return quantity;
     }
 
-    public void setQuantity(long quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 }
