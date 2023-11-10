@@ -8,15 +8,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @Service
-public class Bookstore {
+public class BookstoreController {
 
-    private final BookRepository bookRepository;
-    private final InventoryRepository inventoryRepository;
-
-    @Autowired
-    public Bookstore(BookRepository bookRepository, InventoryRepository inventoryRepository) {
-        this.bookRepository = bookRepository;
-        this.inventoryRepository = inventoryRepository;
+    private final BookstoreRepository bookstoreRepository;
+     @Autowired
+    public BookstoreController(BookstoreRepository bookstoreRepository) {
+        this.bookstoreRepository = bookstoreRepository;
     }
 
     /**
@@ -27,28 +24,19 @@ public class Bookstore {
      */
     public void setBook(Book book, int quantity) {
         // Check if the book already exists in the database
-        Book existingBook = bookRepository.findByISBN(book.getISBN());
+        Book existingBook = bookstoreRepository.findByISBN(book.getISBN());
 
         if (existingBook == null) {
             // If the book doesn't exist, save it in the Book table
-            bookRepository.save(book);
+            book.setQuantity(1);
+            bookstoreRepository.save(book);
         } else {
             // If the book already exists, update it
             existingBook.setTitle(book.getTitle());
             existingBook.setAuthor(book.getAuthor());
-            bookRepository.save(existingBook);
+            existingBook.setQuantity(existingBook.getQuantity() + 1);
+            bookstoreRepository.save(existingBook);
         }
-
-        // Add or update the book's quantity in the Inventory table
-        Inventory inventory = inventoryRepository.findByBook(existingBook);
-        if (inventory == null) {
-            inventory = new Inventory();
-            inventory.setBook(existingBook);
-            inventory.setQuantity(quantity);
-        } else {
-            inventory.setQuantity(inventory.getQuantity() + quantity);
-        }
-        inventoryRepository.save(inventory);
     }
 
     /**
@@ -60,11 +48,11 @@ public class Bookstore {
      */
     public boolean purchaseBook(Book book, int quantity) {
         // Check if the book is in stock
-        Inventory inventory = inventoryRepository.findByBook(book);
-        if (inventory != null && inventory.getQuantity() >= quantity) {
+        Book existingBook = bookstoreRepository.findByISBN(book.getISBN());
+        if (existingBook != null && existingBook.getQuantity() >= quantity) {
             // Update the inventory
-            inventory.setQuantity(inventory.getQuantity() - quantity);
-            inventoryRepository.save(inventory);
+            existingBook.setQuantity(existingBook.getQuantity() - quantity);
+            bookstoreRepository.save(existingBook);
 
             // TODO: Perform the purchase
             // I'm assuming we'll have some table about purchase history so that will be implemented later
@@ -85,9 +73,11 @@ public class Bookstore {
      * @return True if the book was successfully removed, false if the book is not found in the inventory.
      */
     public boolean removeBook(Book book) {
-        Inventory inventory = inventoryRepository.findByBook(book);
-        if (inventory != null) {
-            inventoryRepository.delete(inventory);
+        // Check if the book already exists in the database
+        Book existingBook = bookstoreRepository.findByISBN(book.getISBN());
+
+        if (existingBook != null) {
+            bookstoreRepository.delete(existingBook);
             return true;
         }
         return false;
