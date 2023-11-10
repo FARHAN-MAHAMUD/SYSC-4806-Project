@@ -2,6 +2,9 @@ package com.example.sysc4806project;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -11,9 +14,22 @@ import java.util.HashMap;
 public class BookstoreController {
 
     private final BookstoreRepository bookstoreRepository;
-     @Autowired
+
+    @Autowired
     public BookstoreController(BookstoreRepository bookstoreRepository) {
         this.bookstoreRepository = bookstoreRepository;
+    }
+
+    public String homeView(Model model) {
+        return null;
+    }
+
+    public String ownerView(Model model) {
+        return null;
+    }
+
+    public String customerView(Model model) {
+        return null;
     }
 
     /**
@@ -22,7 +38,7 @@ public class BookstoreController {
      * @param book     The book to add or update.
      * @param quantity The quantity to add to the inventory.
      */
-    public void setBook(Book book, int quantity) {
+    public String setBook(@RequestParam("quantity") int quantity, @RequestBody Book book) {
         // Check if the book already exists in the database
         Book existingBook = bookstoreRepository.findByISBN(book.getISBN());
 
@@ -37,6 +53,8 @@ public class BookstoreController {
             existingBook.setQuantity(existingBook.getQuantity() + 1);
             bookstoreRepository.save(existingBook);
         }
+
+        return null;
     }
 
     /**
@@ -46,7 +64,7 @@ public class BookstoreController {
      * @param quantity The quantity of the book to purchase.
      * @return True if the purchase was successful, false if the book is not in stock or the requested quantity exceeds the available quantity.
      */
-    public boolean purchaseBook(Book book, int quantity) {
+    public String purchaseBook(@RequestParam("quantity") int quantity, @RequestBody Book book) {
         // Check if the book is in stock
         Book existingBook = bookstoreRepository.findByISBN(book.getISBN());
         if (existingBook != null && existingBook.getQuantity() >= quantity) {
@@ -59,11 +77,9 @@ public class BookstoreController {
             // Customer will add books to cart in the GUI, and when they click buy,
             // for each book in the cart, it'll make an API call to our controller,
             // which will call this, and check if it was successful
-
-            return true;
         }
 
-        return false;
+        return null;
     }
 
     /**
@@ -72,17 +88,13 @@ public class BookstoreController {
      * @param book The book to remove.
      * @return True if the book was successfully removed, false if the book is not found in the inventory.
      */
-    public boolean removeBook(Book book) {
+    public String removeBook(@RequestBody Book book) {
         // Check if the book already exists in the database
         Book existingBook = bookstoreRepository.findByISBN(book.getISBN());
 
         if (existingBook != null) {
             bookstoreRepository.delete(existingBook);
-            return true;
         }
-        return false;
+        return null;
     }
-
-
-
 }
