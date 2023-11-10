@@ -11,7 +11,7 @@ public abstract class User {
 
     private HashMap<Book, Integer> shoppingCart;
 
-    private Bookstore bookstore;
+    private BookstoreController bookstore;
 
     public void buy() {
         //TODO

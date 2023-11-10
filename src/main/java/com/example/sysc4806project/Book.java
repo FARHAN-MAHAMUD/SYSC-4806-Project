@@ -54,7 +54,7 @@ public class Book {
         this.price = price;
     }
 
-    public long getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
