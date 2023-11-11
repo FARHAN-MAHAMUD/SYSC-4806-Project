@@ -1,35 +1,36 @@
 package com.example.sysc4806project;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-@Service
+@Controller
 public class BookstoreController {
 
     private final BookstoreRepository bookstoreRepository;
 
-    @Autowired
     public BookstoreController(BookstoreRepository bookstoreRepository) {
         this.bookstoreRepository = bookstoreRepository;
     }
 
-    public String homeView(Model model) {
-        return null;
+    @GetMapping("/owner")
+    public String ownerView(@RequestParam(name="name", required=false, defaultValue="Jacob") String name, Model model) {
+        StringBuilder str = new StringBuilder();
+        bookstoreRepository.findAll().forEach(book -> str.append(book.toString() + "\n"));
+
+        model.addAttribute("name", name);
+        model.addAttribute("books", str.toString());
+        return "owner";
     }
 
-    public String ownerView(Model model) {
-        return null;
-    }
+    @GetMapping("/customer")
+    public String customerView(@RequestParam(name="name", required=false, defaultValue="Jacob") String name, Model model) {
+        StringBuilder str = new StringBuilder();
+        bookstoreRepository.findAll().forEach(book -> str.append(book.toString() + "\n"));
 
-    public String customerView(Model model) {
-        return null;
+        model.addAttribute("name", name);
+        model.addAttribute("books", str.toString());
+        return "customer";
     }
 
     /**
@@ -38,6 +39,7 @@ public class BookstoreController {
      * @param book     The book to add or update.
      * @param quantity The quantity to add to the inventory.
      */
+    @PostMapping("/bookstore")
     public String setBook(@RequestParam("quantity") int quantity, @RequestBody Book book) {
         // Check if the book already exists in the database
         Book existingBook = bookstoreRepository.findByISBN(book.getISBN());
@@ -88,6 +90,7 @@ public class BookstoreController {
      * @param book The book to remove.
      * @return True if the book was successfully removed, false if the book is not found in the inventory.
      */
+    @DeleteMapping("/bookstore")
     public String removeBook(@RequestBody Book book) {
         // Check if the book already exists in the database
         Book existingBook = bookstoreRepository.findByISBN(book.getISBN());
