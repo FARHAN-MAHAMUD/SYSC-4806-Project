@@ -15,13 +15,21 @@ public class BookstoreController {
 
     @GetMapping("/owner")
     public String ownerView(@RequestParam(name="name", required=false, defaultValue="Jacob") String name, Model model) {
+        StringBuilder str = new StringBuilder();
+        bookstoreRepository.findAll().forEach(book -> str.append(book.toString() + "\n"));
+
         model.addAttribute("name", name);
+        model.addAttribute("books", str.toString());
         return "owner";
     }
 
     @GetMapping("/customer")
     public String customerView(@RequestParam(name="name", required=false, defaultValue="Jacob") String name, Model model) {
+        StringBuilder str = new StringBuilder();
+        bookstoreRepository.findAll().forEach(book -> str.append(book.toString() + "\n"));
+
         model.addAttribute("name", name);
+        model.addAttribute("books", str.toString());
         return "customer";
     }
 
@@ -31,6 +39,7 @@ public class BookstoreController {
      * @param book     The book to add or update.
      * @param quantity The quantity to add to the inventory.
      */
+    @PostMapping("/bookstore")
     public String setBook(@RequestParam("quantity") int quantity, @RequestBody Book book) {
         // Check if the book already exists in the database
         Book existingBook = bookstoreRepository.findByISBN(book.getISBN());
@@ -81,6 +90,7 @@ public class BookstoreController {
      * @param book The book to remove.
      * @return True if the book was successfully removed, false if the book is not found in the inventory.
      */
+    @DeleteMapping("/bookstore")
     public String removeBook(@RequestBody Book book) {
         // Check if the book already exists in the database
         Book existingBook = bookstoreRepository.findByISBN(book.getISBN());

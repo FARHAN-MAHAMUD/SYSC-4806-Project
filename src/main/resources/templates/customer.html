@@ -5,7 +5,17 @@
         <title>Customer</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            crossorigin="anonymous"
+        />
     </head>
     <body>
         <style>
@@ -29,9 +39,12 @@
             }
         </style>
         <h3 th:text="${'Welcome to Amazin Bookstore ' + name + '! Please pick an action to proceed.'}" />
+        <p th:text="'Inventory:'" />
+        <p th:text="${books}" />
+        <p th:text="'Cart:'" />
         <p>
-            <button class="largebutton" onclick="window.location='/owner'">Add to cart</button> 
-            <button class="largebutton" onclick="window.location='/customer'">Remove from cart</button> 
+            <button class="largebutton">Add to cart</button> 
+            <button class="largebutton">Remove from cart</button> 
         </p>
         <p>
             <button onclick="window.location='/'">Go back</button> 
