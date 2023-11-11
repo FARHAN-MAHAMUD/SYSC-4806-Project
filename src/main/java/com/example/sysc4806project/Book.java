@@ -70,9 +70,4 @@ public class Book {
         //openBook();
         return results;
     }
-    /*
-    public static void main(String[] args) {
-        Book b = new Book("I Am The Greatest","Michael Jordon",91823,35,2);
-        System.out.println(b.toString());
-    }*/
 }

@@ -4,41 +4,38 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;//
+import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.*;//
 
+/**
+ * This class will test the BookStoreRepository as well as the BookstoreController functionality
+ */
 public class BookstoreTest {
-//    @Mock
-//    private BookstoreRepository bookRepository;//
+    @Mock
+    private BookstoreRepository bookRepository;
 
-//    @Mock
-//    private InventoryRepository inventoryRepository;//
+    private BookstoreController bookstore;
 
-//    private BookstoreController bookstore;//
+    @BeforeEach
+    public void setUp() throws Exception {
+        try (var mocks = MockitoAnnotations.openMocks(this)) {
+            bookstore = new BookstoreController(bookRepository);
+        }
+    }
 
-//    @BeforeEach
-//    public void setUp() throws Exception {
-//        try (var mocks = MockitoAnnotations.openMocks(this)) {
-//            bookstore = new BookstoreController(bookRepository, inventoryRepository);
-//        }
-//    }//
+    @Test
+    public void testSetBook() {
+        // Mock behavior for repositories
+        Book existingBook = new Book("Title", "Author", 1234567890L, 35, 3);
+        Mockito.when(bookRepository.findByISBN(existingBook.getISBN())).thenReturn(existingBook);
 
-//    @Test
-//    public void testSetBook() {
-//        // Mock behavior for repositories
-//        Book existingBook = new Book("Title", "Author", 1234567890L);
-//        Mockito.when(bookRepository.findByISBN(existingBook.getISBN())).thenReturn(existingBook);
-//        Mockito.when(inventoryRepository.findByBook(existingBook)).thenReturn(null);//
-
-//        // Test adding a new book
-//        Book newBook = new Book("New Title", "New Author", 9876543210L);
-//        bookstore.setBook(newBook, 10);//
-
-//        // Verify that the book and inventory repositories were called as expected
-//        Mockito.verify(bookRepository).save(newBook);
-//        Mockito.verify(inventoryRepository).save(Mockito.any(Inventory.class));
-//    }//
+        /*
+        // Test adding a new book
+        Book newBook = new Book("New Title", "New Author", 9876543210L,15,1);
+        // Verify that the book and inventory repositories were called as expected
+        Mockito.verify(bookRepository).save(newBook);*/
+    }
 
 //    @Test
 //    public void testPurchaseBook() {
