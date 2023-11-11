@@ -1,14 +1,14 @@
 package com.example.sysc4806project;
 
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import org.mockito.Mock;
-//import org.mockito.Mockito;
-//import org.mockito.MockitoAnnotations;//
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;//
 
-//import static org.junit.jupiter.api.Assertions.*;//
+import static org.junit.jupiter.api.Assertions.*;//
 
-//public class BookstoreTest {
+public class BookstoreTest {
 //    @Mock
 //    private BookstoreRepository bookRepository;//
 
@@ -104,4 +104,4 @@ package com.example.sysc4806project;
 //        assertFalse(removeNonExistingResult);
 //    }//
 
-//}//
+}
