@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
     <head>
-        <title>Amazin Bookstore</title>
+        <title>Customer</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <script src="script.js"></script>
     </head>
     <body>
         <style>
@@ -28,10 +28,13 @@
                 margin-top: 160px;
             }
         </style>
-        <h3>Welcome to Amazin Bookstore! Pick a user type:</h3>
+        <h3 th:text="${'Welcome to Amazin Bookstore ' + name + '! Please pick an action to proceed.'}" />
         <p>
-            <button class="largebutton" onclick="window.location='/owner'">Owner</button> 
-            <button class="largebutton" onclick="window.location='/customer'">Customer</button> 
+            <button class="largebutton" onclick="window.location='/owner'">Add to cart</button> 
+            <button class="largebutton" onclick="window.location='/customer'">Remove from cart</button> 
+        </p>
+        <p>
+            <button onclick="window.location='/'">Go back</button> 
         </p>
     </body>
 </html>
