@@ -1,6 +1,8 @@
 package com.example.sysc4806project;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
@@ -10,12 +12,12 @@ public class Book {
     private String author;
 
     @Id
-    private final long ISBN;
+    @GeneratedValue(strategy= GenerationType.AUTO) //generate id automatically
+    private long ISBN;
     private float price;
     private int quantity;
 
     public Book() {
-        ISBN = 1; //TODO: I just added this to get rid of compilation errors in Inventory
     }
 
     public Book(String title, String author, long ISBN, float price, int quantity) {
@@ -60,5 +62,12 @@ public class Book {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    @Override
+    public String toString() {
+        String results = String.format("Title: %s | Author: %s | ISBN: %d | Price: %.2f | Quantity: %d", title, author, ISBN, price, quantity);
+        //openBook();
+        return results;
     }
 }
