@@ -31,7 +31,6 @@ public class BookstoreController {
     public String customerView(Model model) {
         return null;
     }
-
     /**
      * Add a book to the bookstore's inventory or update its quantity.
      *
