@@ -14,13 +14,13 @@ public class Book {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO) //generate id automatically
     private long ISBN;
-    private long price;
+    private float price;
     private int quantity;
 
     public Book() {
     }
 
-    public Book(String title, String author, long ISBN, long price, int quantity) {
+    public Book(String title, String author, long ISBN, float price, int quantity) {
         this.title = title;
         this.author = author;
         this.ISBN = ISBN;
@@ -48,11 +48,11 @@ public class Book {
         return ISBN;
     }
 
-    public long getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
@@ -66,7 +66,7 @@ public class Book {
 
     @Override
     public String toString() {
-        String results = String.format("Title: %s | Author: %s | ISBN: %d | Price: %d | Quantity: %d", title, author, ISBN, price, quantity);
+        String results = String.format("Title: %s | Author: %s | ISBN: %d | Price: %.2f | Quantity: %d", title, author, ISBN, price, quantity);
         //openBook();
         return results;
     }
