@@ -1,5 +1,6 @@
 package com.example.sysc4806project;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,7 @@ public class BookstoreController {
 
     private final BookstoreRepository bookstoreRepository;
 
+    @Autowired
     public BookstoreController(BookstoreRepository bookstoreRepository) {
         this.bookstoreRepository = bookstoreRepository;
     }
@@ -102,7 +104,7 @@ public class BookstoreController {
      * @return True if the book was successfully removed, false if the book is not found in the inventory.
      */
     @DeleteMapping("/owner")
-    public String removeBook(@RequestParam("isbn") int isbn) {
+    public String removeBook(@RequestParam("isbn") long isbn) {
         // Check if the book already exists in the database
         boolean bookExists = bookstoreRepository.existsByISBN(isbn);
 
