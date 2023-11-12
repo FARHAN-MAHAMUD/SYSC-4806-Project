@@ -15,11 +15,21 @@ public class User {
     @GeneratedValue
     private long id;
 
-    private String name;
+    private String name = "Default";
 
     @ElementCollection
-    private HashMap<Book, Integer> shoppingCart;
+    private HashMap<Book, Integer> shoppingCart = new HashMap<>();
 
+    private final boolean ownerStatus;
+
+    public User() {
+        ownerStatus = false;
+    }
+
+    public User(String name, boolean ownerStatus) {
+        this.name = name;
+        this.ownerStatus = ownerStatus;
+    }
 
 
     public String getName() {

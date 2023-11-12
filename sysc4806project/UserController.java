@@ -11,16 +11,29 @@ import java.util.Set;
 @Controller
 public class UserController {
 
+    @Autowired
+    private final BookstoreRepository bookstoreRepository;
+
+    @Autowired
     private final UserRepository userRepository;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
+    private final BookstoreController bookstoreController;
+
+    @Autowired
+    public UserController(UserRepository userRepository, BookstoreRepository bookstoreRepository, BookstoreController bookstoreController) {
         this.userRepository = userRepository;
+        this.bookstoreRepository = bookstoreRepository;
+        this.bookstoreController = bookstoreController;
     }
 
 
     public void addItemToCart(@RequestParam("id") long id, @RequestParam("quantity") int quantity, @RequestBody Book book) {
         User user = userRepository.findById(id);
+
+        if (quantity > bookstoreRepository.findByISBN(book.getISBN()).getQuantity()) {
+            throw new ArithmeticException();
+        }
 
         try{
             user.getShoppingCart().put(book, quantity);
@@ -32,25 +45,31 @@ public class UserController {
     public void removeItemFromCart(@RequestParam("id") long id, @RequestParam("quantity") int quantity, @RequestBody Book book) {
         User user = userRepository.findById(id);
 
-        try{
-            user.getShoppingCart().remove(book, quantity);
-        } catch (NullPointerException nullPointerException) {
-            System.out.println("User not found!");
+        if (user.getShoppingCart().containsKey(book)) {
+            int oldQuantity = user.getShoppingCart().get(book);
+            if (oldQuantity == quantity) {
+                user.getShoppingCart().remove(book);
+            }
+            else {
+                user.getShoppingCart().put(book, oldQuantity - quantity);
+            }
+
         }
     }
 
-    public int checkoutUser(@RequestParam("id") long id) {
+    public float checkoutUser(@RequestParam("id") long id) {
         User user = userRepository.findById(id);
-        int price = 0;
+        float price = 0.0F;
 
         try {
             for (Map.Entry<Book, Integer> entry: user.getShoppingCart().entrySet()){
-                price += (int) (entry.getKey().getPrice() * entry.getValue());
+                price += (entry.getKey().getPrice() * entry.getValue());
+                //bookstoreController.setBook(entry.getValue(), ); Not done yet to remove book from bookstore after checkout
             }
         } catch(NullPointerException nullPointerException){
             System.out.println("User not found or cart is empty!");
         }
-
+        user.getShoppingCart().clear();
         return price;
-    }
+     }
 }
