@@ -1,29 +1,36 @@
 package com.example.sysc4806project;
 
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.HashMap;
 
-//TODO: entity
-public abstract class User {
+@Entity
+public class User {
 
+    @Id
+    @GeneratedValue
     private long id;
 
-    private String name;
+    private String name = "Default";
 
-    private HashMap<Book, Integer> shoppingCart;
+    @ElementCollection
+    private HashMap<Book, Integer> shoppingCart = new HashMap<>();
 
-    private BookstoreController bookstore;
+    private final boolean ownerStatus;
 
-    public void buy() {
-        //TODO
+    public User() {
+        ownerStatus = false;
     }
 
-    public void addItemToCart() {
-        //TODO
+    public User(String name, boolean ownerStatus) {
+        this.name = name;
+        this.ownerStatus = ownerStatus;
     }
 
-    public void removeItemFromCart() {
-        //TODO
-    }
 
     public String getName() {
         return name;
@@ -31,5 +38,22 @@ public abstract class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+
+    public void setShoppingCart(HashMap<Book, Integer> shoppingCart) {
+        this.shoppingCart = shoppingCart;
+    }
+
+    public HashMap<Book, Integer> getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public long getId() {
+        return id;
     }
 }

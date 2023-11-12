@@ -44,7 +44,6 @@ public class BookstoreController {
         model.addAttribute("books", str.toString());
         return "customer";
     }
-
     /**
      * Add a book to the bookstore's inventory or update its quantity.
      *
