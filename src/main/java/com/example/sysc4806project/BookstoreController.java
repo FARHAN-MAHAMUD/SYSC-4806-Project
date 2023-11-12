@@ -13,6 +13,12 @@ public class BookstoreController {
         this.bookstoreRepository = bookstoreRepository;
     }
 
+    /**
+     * Opens the owner html page view.
+     * 
+     * @param name      The name of the current user navigating the page.
+     * @param model     The data model of the bookstore system.
+     */
     @GetMapping("/owner")
     public String ownerView(@RequestParam(name="name", required=false, defaultValue="Jacob") String name, Model model) {
         StringBuilder str = new StringBuilder();
@@ -23,6 +29,12 @@ public class BookstoreController {
         return "owner";
     }
 
+    /**
+     * Opens the customer html page view.
+     * 
+     * @param name      The name of the current user navigating the page.
+     * @param model     The data model of the bookstore system.
+     */
     @GetMapping("/customer")
     public String customerView(@RequestParam(name="name", required=false, defaultValue="Jacob") String name, Model model) {
         StringBuilder str = new StringBuilder();
@@ -37,26 +49,26 @@ public class BookstoreController {
      * Add a book to the bookstore's inventory or update its quantity.
      *
      * @param book     The book to add or update.
-     * @param quantity The quantity to add to the inventory.
      */
-    @PostMapping("/bookstore")
-    public String setBook(@RequestParam("quantity") int quantity, @RequestBody Book book) {
+    @PostMapping("/owner")
+    public String setBook(@RequestBody Book book) {
         // Check if the book already exists in the database
-        Book existingBook = bookstoreRepository.findByISBN(book.getISBN());
+        boolean bookExists = bookstoreRepository.existsByISBN(book.getISBN());
 
-        if (existingBook == null) {
+        if (!bookExists) {
             // If the book doesn't exist, save it in the Book table
-            book.setQuantity(1);
             bookstoreRepository.save(book);
         } else {
             // If the book already exists, update it
+            Book existingBook = bookstoreRepository.findByISBN(book.getISBN());
             existingBook.setTitle(book.getTitle());
             existingBook.setAuthor(book.getAuthor());
-            existingBook.setQuantity(existingBook.getQuantity() + 1);
+            existingBook.setPrice(book.getPrice());
+            existingBook.setQuantity(existingBook.getQuantity() + book.getQuantity());
             bookstoreRepository.save(existingBook);
         }
 
-        return null;
+        return "owner";
     }
 
     /**
@@ -87,17 +99,18 @@ public class BookstoreController {
     /**
      * Remove a book from the bookstore's inventory.
      *
-     * @param book The book to remove.
+     * @param isbn The isbn of the book to remove.
      * @return True if the book was successfully removed, false if the book is not found in the inventory.
      */
-    @DeleteMapping("/bookstore")
-    public String removeBook(@RequestBody Book book) {
+    @DeleteMapping("/owner")
+    public String removeBook(@RequestParam("isbn") int isbn) {
         // Check if the book already exists in the database
-        Book existingBook = bookstoreRepository.findByISBN(book.getISBN());
+        boolean bookExists = bookstoreRepository.existsByISBN(isbn);
 
-        if (existingBook != null) {
+        if (bookExists) {
+            Book existingBook = bookstoreRepository.findByISBN(isbn);
             bookstoreRepository.delete(existingBook);
         }
-        return null;
+        return "owner";
     }
 }

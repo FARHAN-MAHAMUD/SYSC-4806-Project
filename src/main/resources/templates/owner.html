@@ -2,19 +2,10 @@
 <html>
     <head>
         <title>Owner</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link
-            rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-            crossorigin="anonymous"
-        />
-        <link
-            rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-            crossorigin="anonymous"
-        />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="../static/script.js"></script>
     </head>
     <body>
         <style>
@@ -34,15 +25,18 @@
             }
             p {
                 text-align: center;
-                margin-top: 160px;
+                margin-top: 80px;
+            }
+            pre {
+              text-align: center;
             }
         </style>
         <h3 th:text="${'Welcome to your store ' + name + '! What would you like to update in the inventory?'}" />
         <p th:text="'Inventory:'" />
-        <p th:text="${books}" />
+        <pre th:text="${books}" />
         <p>
-            <button class="largebutton" data-toggle="modal" data-target="#modalPost">Add books</button> 
-            <button class="largebutton" data-toggle="modal" data-target="#modalDelete">Remove book</button> 
+            <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalPost">Add books</button> 
+            <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalDelete">Remove book</button> 
         </p>
         <p>
             <button onclick="window.location='/'">Go back</button> 
@@ -52,33 +46,37 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title">Add/edit Books</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="postForm" method="post" action="#" th:action="@{/}">
                         <div class="form-group">
-                          <label for="exampleFormControlInput1">Book Title</label>
-                          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                          <label for="title">Book Title</label>
+                          <input type="text" id="title" class="form-control" placeholder="Title">
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">ISBN</label>
-                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                          <label for="author">Author</label>
+                          <input type="text" id="author" class="form-control" placeholder="Author">
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">Price</label>
-                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                            <label for="isbn">ISBN</label>
+                            <input type="number" id="isbn" class="form-control" placeholder="ISBN">
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">Quantity</label>
-                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                            <label for="price">Price</label>
+                            <input pattern="^\d*(\.\d{0,2})?$" id="price" class="form-control" placeholder="Price">
                         </div>
-                      </form>
+                        <div class="form-group">
+                            <label for="quantity">Quantity</label>
+                            <input type="number" id="quantity" class="form-control" placeholder="Quantity">
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" form="postForm" class="btn btn-primary">Add/modify book</button>
                 </div>
               </div>
             </div>
@@ -88,24 +86,25 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title">Remove Books</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="deleteForm" method="delete">
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">ISBN</label>
-                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                            <label for="isbn">ISBN</label>
+                            <input type="number" id="isbn" class="form-control" placeholder="ISBN">
                         </div>
-                      </form>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" form="deleteForm" class="btn btn-primary">Delete book</button>
                 </div>
               </div>
             </div>
           </div>
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     </body>
 </html>
