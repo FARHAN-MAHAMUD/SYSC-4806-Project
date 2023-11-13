@@ -8,7 +8,7 @@ Azure Link: sysc4810project.azurewebsites.net
 Team Memebers:
 * Farhan Mahamud - 10114786
 * Subear Jama - 
-* Jacob Hovey -
+* Jacob Hovey - 101163798
 * Ilyes Hasnaou -
 * Patrick Vafaie -
 
