@@ -114,4 +114,15 @@ public class BookstoreController {
         }
         return "owner";
     }
+
+    /**
+     * Get all books from the bookstore's inventory.
+     *
+     * @return The list of books in the inventory.
+     */
+    @GetMapping("/getBooks")
+    @ResponseBody
+    public Iterable<Book> getBooks() {
+        return bookstoreRepository.findAll();
+    }
 }
