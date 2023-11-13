@@ -9,7 +9,7 @@ Team Memebers:
 * Farhan Mahamud - 10114786
 * Subear Jama - 
 * Jacob Hovey - 101163798
-* Ilyes Hasnaou -
+* Ilyes Hasnaou - 101146081
 * Patrick Vafaie -
 
 ## Overview
