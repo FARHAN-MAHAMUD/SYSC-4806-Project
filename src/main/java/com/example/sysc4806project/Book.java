@@ -15,7 +15,6 @@ public class Book {
     private String author;
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO) //generate an id automatically for the empty constructor
     private long ISBN;
     private float price;
     private int quantity;
@@ -77,6 +76,14 @@ public class Book {
      */
     public long getISBN() {
         return ISBN;
+    }
+
+    /**
+     * Set method sets the book's ISBN.
+     * @param ISBN long, the book's ISBN
+     */
+    public void setISBN(long ISBN) {
+        this.ISBN = ISBN;
     }
 
     /**
