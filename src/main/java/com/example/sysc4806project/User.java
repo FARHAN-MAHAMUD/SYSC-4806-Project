@@ -18,7 +18,7 @@ public class User {
 
     private String name = "Default";
 
-    @Transient
+    @ElementCollection
     private HashMap<Book, Integer> shoppingCart = new HashMap<>();
 
     private final boolean ownerStatus;
