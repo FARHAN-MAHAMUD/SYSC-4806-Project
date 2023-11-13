@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.HashMap;
 
 @Entity
+@Table(name = "user1")
 public class User {
 
     @Id
@@ -17,7 +18,7 @@ public class User {
 
     private String name = "Default";
 
-    @ElementCollection
+    @Transient
     private HashMap<Book, Integer> shoppingCart = new HashMap<>();
 
     private final boolean ownerStatus;
