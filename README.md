@@ -6,8 +6,8 @@ Project Status: [![Java CI with Maven](https://github.com/FARHAN-MAHAMUD/SYSC-48
 Azure Link: sysc4810project.azurewebsites.net
 
 Team Memebers:
-* Farhan Mahamud - 10114786
-* Subear Jama - 
+* Farhan Mahamud - 101147861
+* Subear Jama - 101154626
 * Jacob Hovey - 101163798
 * Ilyes Hasnaou - 101146081
 * Patrick Vafaie - 101152154
