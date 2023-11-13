@@ -122,7 +122,9 @@ public class BookstoreController {
      */
     @GetMapping("/getBooks")
     @ResponseBody
-    public Iterable<Book> getBooks() {
-        return bookstoreRepository.findAll();
+    public String getBooks() {
+        StringBuilder str = new StringBuilder();
+        bookstoreRepository.findAll().forEach(book -> str.append(book.toString() + "\n"));
+        return str.toString();
     }
 }

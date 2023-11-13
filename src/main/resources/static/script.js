@@ -20,16 +20,15 @@ $(document).ready(function () {
                 $.ajax({
                     type: 'GET',
                     url: 'http://localhost:8080/getBooks',
-                    dataType: 'json',
+                    dataType: 'text',
                 })
                     .done((updatedBooks) => {
                         // Log the updated book data to the console
                         console.log({ updatedBooks });
 
                         // Manipulate the DOM to update the book information
-                        const booksContainer = $('pre[th\\:text="${books}"]');
-                        const updatedBooksText = JSON.stringify(updatedBooks, null, 2);
-                        booksContainer.text(updatedBooksText);
+                        const booksContainer = $('#inventory');
+                        booksContainer.text(updatedBooks);
                     })
                     .fail((err) => {
                         console.error(err);
