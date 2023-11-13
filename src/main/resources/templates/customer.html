@@ -1,3 +1,4 @@
+<!-- customer.html is the customer view of the website. It allows for customer actions that manipulate the shopping cart.-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
@@ -49,6 +50,7 @@
         <p>
             <button onclick="window.location='/'">Go back</button> 
         </p>
+        <!-- This modal is used to add books to the cart. It includes a form to choose a book by ISBN and quantity. -->
         <div class="modal" id="modalPost" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -77,6 +79,7 @@
               </div>
             </div>
           </div>
+          <!-- This modal is used to remove books from the cart. It includes a form to choose a book by ISBN and quantity. -->
           <div class="modal" id="modalDelete" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
               <div class="modal-content">

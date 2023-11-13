@@ -1,3 +1,4 @@
+<!-- owner.html is the owner view of the website. It allows for owner actions that manipulate the shop inventory.-->
 <!DOCTYPE html>
 <html>
     <head>
@@ -39,6 +40,7 @@
         <p>
             <button onclick="window.location='/'">Go back</button> 
         </p>
+        <!-- This modal is used to add books to the shop inventory. It includes a form to specify all fields of the book to be added. If the book ISBN already exists, it will edit the other fields and add the specified quantity to existing quantity. -->
         <div class="modal" id="modalPost" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -79,6 +81,7 @@
               </div>
             </div>
           </div>
+          <!-- This modal is used to remove books from the inventory. It includes a form to choose a book by ISBN and will remove that book and all copies completely from the system. -->
           <div class="modal" id="modalDelete" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
