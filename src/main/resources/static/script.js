@@ -11,7 +11,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'POST',
-            url: 'localhost:8080/owner',
+            url: '/owner',
             data: JSON.stringify(data),
             contentType: 'application/json',
           })
@@ -24,7 +24,6 @@ $(document).ready(function () {
             .always(() => {
               console.log('always called');
             });
-        alert("created!");
         event.preventDefault();
     });
 });
