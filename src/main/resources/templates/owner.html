@@ -34,7 +34,7 @@
         </style>
         <h3 th:text="${'Welcome to your store ' + name + '! What would you like to update in the inventory?'}" />
         <p th:text="'Inventory:'" />
-        <pre id="inventory" th:text="${books}" />
+        <pre th:text="${books}" />
         <p>
             <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalPost">Add books</button> 
             <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalDelete">Remove book</button> 
