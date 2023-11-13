@@ -10,7 +10,7 @@ Team Memebers:
 * Subear Jama - 
 * Jacob Hovey - 101163798
 * Ilyes Hasnaou - 101146081
-* Patrick Vafaie -
+* Patrick Vafaie - 101152154
 
 ## Overview
 For this project, our group is creating an online book store where users can buy books that are available and are in stock 
