@@ -20,6 +20,12 @@ public class UserController {
     @Autowired
     private final BookstoreController bookstoreController;
 
+    /**
+     * Constructor for the UserController class
+     * @param userRepository user repository attribute
+     * @param bookstoreRepository bookstore repository attribute
+     * @param bookstoreController bookstore controller attribute
+     */
     @Autowired
     public UserController(UserRepository userRepository, BookstoreRepository bookstoreRepository, BookstoreController bookstoreController) {
         this.userRepository = userRepository;
@@ -28,6 +34,12 @@ public class UserController {
     }
 
 
+    /**
+     * Adds a Book object to a user's cart based on the user's ID
+     * @param id user's ID that needs the book added
+     * @param quantity quantity of the book to be added
+     * @param book book to be added
+     */
     public void addItemToCart(@RequestParam("id") long id, @RequestParam("quantity") int quantity, @RequestBody Book book) {
         User user = userRepository.findById(id);
 
@@ -42,6 +54,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Removes a Book object from a user's cart based on the user's ID
+     * @param id user's ID that needs the book removed
+     * @param quantity quantity of the book to be removed
+     * @param book book to be removed
+     */
     public void removeItemFromCart(@RequestParam("id") long id, @RequestParam("quantity") int quantity, @RequestBody Book book) {
         User user = userRepository.findById(id);
 
@@ -57,6 +75,11 @@ public class UserController {
         }
     }
 
+    /**
+     * Checks out a user based on the user's ID, emptying his cart and returning a total price
+     * @param id user's ID that needs to check out
+     * @return final price
+     */
     public float checkoutUser(@RequestParam("id") long id) {
         User user = userRepository.findById(id);
         float price = 0.0F;
