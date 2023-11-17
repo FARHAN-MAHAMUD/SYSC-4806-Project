@@ -26,3 +26,10 @@ In this milestone, we are currently building a prototype of our project. The mai
 # Additions for Future Milestones:
   - Adding a checkout feature for users
   - Deploying the project using AWS
+
+# Responsibilities
+  - Farhan: Repository creation, CI/CD actions, README file, ORM and UML Diagram, and Azure Deployment
+  - Subear: Implement Book and BookStoreController functionalities and respective tests
+  - Jacob: Implement BookstoreController functionalities and repsective tests and made HTML views
+  - Patrick: Implement Bookstore functionalities and respective tests
+  - Ilyes: Implement User and UserController functionalities and respective tests

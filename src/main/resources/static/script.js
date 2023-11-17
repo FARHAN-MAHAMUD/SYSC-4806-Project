@@ -42,4 +42,90 @@ $(document).ready(function () {
             });
         event.preventDefault();
     });
+
+    $(document).on("submit", "#deleteForm", function (event) {
+
+        const data = {
+            isbn: $('#deletedISBN').val(),
+        };
+
+        $.ajax({
+            type: 'DELETE',
+            url: '/owner?isbn=' + data.isbn,
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+        })
+            .done(() => {
+
+                console.log(data)
+                // After a successful DELETE request, make a separate AJAX call to get updated book data
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8080/getBooks',
+                    dataType: 'text',
+                })
+                    .done((updatedBooks) => {
+                        // Log the updated book data to the console
+                        console.log({ updatedBooks });
+
+                        // Manipulate the DOM to update the book information
+                        const booksContainer = $('#inventory');
+                        booksContainer.text(updatedBooks);
+
+                    })
+                    .fail((err) => {
+                        console.error(err);
+                    });
+            })
+            .fail((err) => {
+                console.error(err);
+            })
+            .always(() => {
+                console.log('always called');
+            });
+        event.preventDefault();
+    });
+
+    $(document).on("submit", "#patchForm", function (event) {
+
+        const data = {
+            isbn: $('#updateISBN').val(),
+            quantity: $('#newQuantity').val()
+        };
+
+        $.ajax({
+            type: 'PATCH',
+            url: '/owner?isbn=' + data.isbn + "&quantity=" + data.quantity,
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+        })
+            .done(() => {
+
+                // After a successful PATCH request, make a separate AJAX call to get updated book data
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8080/getBooks',
+                    dataType: 'text',
+                })
+                    .done((updatedBooks) => {
+                        // Log the updated book data to the console
+                        console.log({ updatedBooks });
+
+                        // Manipulate the DOM to update the book information
+                        const booksContainer = $('#inventory');
+                        booksContainer.text(updatedBooks);
+
+                    })
+                    .fail((err) => {
+                        console.error(err);
+                    });
+            })
+            .fail((err) => {
+                console.error(err);
+            })
+            .always(() => {
+                console.log('always called');
+            });
+        event.preventDefault();
+    });
 });
