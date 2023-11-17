@@ -115,6 +115,31 @@ public class BookstoreController {
         return "owner";
     }
 
+    /***
+     * A function for an owner to update the quantity of book
+     * @param isbn The isbn of the book
+     * @param quantity The new quantity of the book
+     * @return
+     */
+    @PatchMapping("/owner")
+    public String updateBookQuantity(@RequestParam("isbn") long isbn, @RequestParam("quantity") int quantity) {
+        // Check if the book already exists in the database
+        boolean bookExists = bookstoreRepository.existsByISBN(isbn);
+
+        if (bookExists) {
+            Book existingBook = bookstoreRepository.findByISBN(isbn);
+
+            if (quantity == 0) {
+                bookstoreRepository.delete(existingBook);
+            } else {
+                existingBook.setQuantity(quantity);
+                bookstoreRepository.save(existingBook);
+            }
+        }
+
+        return "owner";
+    }
+
     /**
      * Get all books from the bookstore's inventory.
      *
