@@ -54,5 +54,6 @@ class UserTest {
         //try emptying cart
         assertEquals( 4 * 10F, userController.checkoutUser(customer.getId()));
         assertEquals(0 , customer.getShoppingCart().size());
+        assertEquals(false, bookRepository.existsByISBN(existingBook.getISBN())); //Makes sure that book is removed after being sold
     }
 }
