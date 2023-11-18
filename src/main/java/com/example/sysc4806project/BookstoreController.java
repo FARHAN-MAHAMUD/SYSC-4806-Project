@@ -79,22 +79,26 @@ public class BookstoreController {
      * @param quantity The quantity of the book to purchase.
      * @return True if the purchase was successful, false if the book is not in stock or the requested quantity exceeds the available quantity.
      */
-    public String purchaseBook(@RequestParam("quantity") int quantity, @RequestBody Book book) {
+    public float purchaseBook(@RequestParam("quantity") int quantity, @RequestBody Book book) {
         // Check if the book is in stock
         Book existingBook = bookstoreRepository.findByISBN(book.getISBN());
         if (existingBook != null && existingBook.getQuantity() >= quantity) {
             // Update the inventory
             existingBook.setQuantity(existingBook.getQuantity() - quantity);
             bookstoreRepository.save(existingBook);
-
+            return quantity * existingBook.getPrice();
             // TODO: Perform the purchase
             // I'm assuming we'll have some table about purchase history so that will be implemented later
             // Customer will add books to cart in the GUI, and when they click buy,
             // for each book in the cart, it'll make an API call to our controller,
             // which will call this, and check if it was successful
         }
-
-        return null;
+        else if (existingBook != null && quantity > existingBook.getQuantity()) {
+            float price = existingBook.getPrice() * existingBook.getQuantity();
+            removeBook(existingBook.getISBN());
+            return price;
+        }
+        return 0f;
     }
 
     /**

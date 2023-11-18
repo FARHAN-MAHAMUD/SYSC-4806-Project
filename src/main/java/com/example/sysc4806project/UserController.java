@@ -86,8 +86,7 @@ public class UserController {
 
         try {
             for (Map.Entry<Book, Integer> entry: user.getShoppingCart().entrySet()){
-                price += (entry.getKey().getPrice() * entry.getValue());
-                //bookstoreController.setBook(entry.getValue(), ); Not done yet to remove book from bookstore after checkout
+                price += bookstoreController.purchaseBook(entry.getValue(), entry.getKey());
             }
         } catch(NullPointerException nullPointerException){
             System.out.println("User not found or cart is empty!");
