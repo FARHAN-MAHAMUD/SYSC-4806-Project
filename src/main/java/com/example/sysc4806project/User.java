@@ -20,6 +20,9 @@ public class User {
 
     private String name = "Default";
 
+    private String username;
+    private String password;
+
     @ElementCollection
     private HashMap<Book, Integer> shoppingCart = new HashMap<>();
 
