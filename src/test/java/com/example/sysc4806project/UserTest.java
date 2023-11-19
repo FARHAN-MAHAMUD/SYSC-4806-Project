@@ -17,6 +17,9 @@ class UserTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private PurchaseHistoryRepository purchaseHistoryRepository;
+
     private UserController userController;
 
     private BookstoreController bookstoreController;
@@ -25,7 +28,7 @@ class UserTest {
     void setUp() {
         try (var mocks = MockitoAnnotations.openMocks(this)) {
             bookstoreController = new BookstoreController(bookRepository);
-            userController =  new UserController(userRepository, bookRepository, bookstoreController);
+            userController =  new UserController(userRepository, bookRepository, purchaseHistoryRepository, bookstoreController);
         } catch (Exception e) {
             System.out.println("Unable to start tests");
         }
@@ -41,19 +44,23 @@ class UserTest {
         Book existingBook = new Book("Book", "Author", 123456L, 10F, 5);
         User customer = new User("CustomerTest", false);
         Mockito.when(bookRepository.findByISBN(existingBook.getISBN())).thenReturn(existingBook);
-        Mockito.when(userRepository.findById(customer.getId())).thenReturn(customer);
+        Mockito.when(userRepository.findById(customer.getUser_id())).thenReturn(customer);
 
         //try adding to cart
-        userController.addItemToCart(customer.getId(), 5, bookRepository.findByISBN(existingBook.getISBN()));
+        userController.addItemToCart(customer.getUser_id(), 5, bookRepository.findByISBN(existingBook.getISBN()));
         assertEquals(5, customer.getShoppingCart().get(existingBook));
 
         //try removing from cart
-        userController.removeItemFromCart(customer.getId(), 1, existingBook);
+        userController.removeItemFromCart(customer.getUser_id(), 1, existingBook);
         assertEquals(4, customer.getShoppingCart().get(existingBook));
 
-        //try emptying cart
-        assertEquals( 4 * 10F, userController.checkoutUser(customer.getId()));
-        assertEquals(0 , customer.getShoppingCart().size());
-        assertEquals(false, bookRepository.existsByISBN(existingBook.getISBN())); //Makes sure that book is removed after being sold
+        // Try emptying cart and checking out
+        float totalPrice = userController.checkoutUser(customer.getUser_id());
+        assertEquals(4 * 10F, totalPrice);
+        assertEquals(0, customer.getShoppingCart().size());
+        assertFalse(bookRepository.existsByISBN(existingBook.getISBN())); // Makes sure that the book is removed after being sold
+
+        // Verify that purchase history is created
+        Mockito.verify(purchaseHistoryRepository, Mockito.times(1)).save(Mockito.any(PurchaseHistory.class));
     }
 }

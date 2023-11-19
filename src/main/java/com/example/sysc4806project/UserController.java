@@ -5,20 +5,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Set;
 
 @Controller
 public class UserController {
 
-    @Autowired
     private final BookstoreRepository bookstoreRepository;
-
-    @Autowired
     private final UserRepository userRepository;
-
-    @Autowired
     private final BookstoreController bookstoreController;
+    private final PurchaseHistoryRepository purchaseHistoryRepository;
 
     /**
      * Constructor for the UserController class
@@ -27,9 +24,11 @@ public class UserController {
      * @param bookstoreController bookstore controller attribute
      */
     @Autowired
-    public UserController(UserRepository userRepository, BookstoreRepository bookstoreRepository, BookstoreController bookstoreController) {
+    public UserController(UserRepository userRepository, BookstoreRepository bookstoreRepository,
+                          PurchaseHistoryRepository purchaseHistoryRepository, BookstoreController bookstoreController) {
         this.userRepository = userRepository;
         this.bookstoreRepository = bookstoreRepository;
+        this.purchaseHistoryRepository = purchaseHistoryRepository;
         this.bookstoreController = bookstoreController;
     }
 
@@ -87,6 +86,13 @@ public class UserController {
         try {
             for (Map.Entry<Book, Integer> entry: user.getShoppingCart().entrySet()){
                 price += bookstoreController.purchaseBook(entry.getValue(), entry.getKey());
+
+                // Add a record to the purchase history
+                PurchaseHistory purchaseRecord = new PurchaseHistory();
+                purchaseRecord.setUser(user);
+                purchaseRecord.setBookId(entry.getKey());
+                purchaseRecord.setPurchaseDate(LocalDateTime.now());
+                purchaseHistoryRepository.save(purchaseRecord);
             }
         } catch(NullPointerException nullPointerException){
             System.out.println("User not found or cart is empty!");
