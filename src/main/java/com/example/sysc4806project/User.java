@@ -1,14 +1,10 @@
 package com.example.sysc4806project;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import org.springframework.beans.factory.annotation.Autowired;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Entity
 @Table(name = "user1")
@@ -16,7 +12,7 @@ public class User {
 
     @Id
     @GeneratedValue
-    private long id;
+    private long user_id;
 
     private String name = "Default";
 
@@ -25,6 +21,9 @@ public class User {
 
     @ElementCollection
     private HashMap<Book, Integer> shoppingCart = new HashMap<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<PurchaseHistory> purchaseHistory = new ArrayList<>();
 
     private final boolean ownerStatus;
 
@@ -66,8 +65,8 @@ public class User {
      * Setter for ID
      * @param id new id to be set
      */
-    public void setId(long id) {
-        this.id = id;
+    public void setUser_id(long id) {
+        this.user_id = id;
     }
 
 
@@ -91,7 +90,7 @@ public class User {
      * Getter for the ID attribute
      * @return ID attribute
      */
-    public long getId() {
-        return id;
+    public long getUser_id() {
+        return user_id;
     }
 }
