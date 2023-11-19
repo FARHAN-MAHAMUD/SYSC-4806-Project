@@ -31,6 +31,9 @@
                 margin-top: 80px;
             }
         </style>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Logout"/>
+        </form>
         <h3 th:text="${'Welcome to Amazin Bookstore ' + name + '! Please pick an action to proceed.'}" />
         <p th:text="'Inventory:'" />
         <p th:text="${books}" />
@@ -40,7 +43,7 @@
             <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalDelete">Remove from cart</button> 
         </p>
         <p>
-            <button onclick="window.location='/'">Go back</button> 
+            <button onclick="window.location='/loginHome'">Go back</button>
         </p>
         <!-- This modal is used to add books to the cart. It includes a form to choose a book by ISBN and quantity. -->
         <div class="modal" id="modalPost" tabindex="-1" role="dialog">
