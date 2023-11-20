@@ -17,12 +17,12 @@ public class BookstoreController {
 
     /**
      * Opens the owner html page view.
-     * 
-     * @param name      The name of the current user navigating the page.
-     * @param model     The data model of the bookstore system.
+     *
+     * @param name  The name of the current user navigating the page.
+     * @param model The data model of the bookstore system.
      */
     @GetMapping("/owner")
-    public String ownerView(@RequestParam(name="name", required=false, defaultValue="Jacob") String name, Model model) {
+    public String ownerView(@RequestParam(name = "name", required = false, defaultValue = "Jacob") String name, Model model) {
         StringBuilder str = new StringBuilder();
         bookstoreRepository.findAll().forEach(book -> str.append(book.toString() + "\n"));
 
@@ -33,12 +33,12 @@ public class BookstoreController {
 
     /**
      * Opens the customer html page view.
-     * 
-     * @param name      The name of the current user navigating the page.
-     * @param model     The data model of the bookstore system.
+     *
+     * @param name  The name of the current user navigating the page.
+     * @param model The data model of the bookstore system.
      */
     @GetMapping("/customer")
-    public String customerView(@RequestParam(name="name", required=false, defaultValue="Jacob") String name, Model model) {
+    public String customerView(@RequestParam(name = "name", required = false, defaultValue = "Jacob") String name, Model model) {
         StringBuilder str = new StringBuilder();
         bookstoreRepository.findAll().forEach(book -> str.append(book.toString() + "\n"));
 
@@ -46,10 +46,11 @@ public class BookstoreController {
         model.addAttribute("books", str.toString());
         return "customer";
     }
+
     /**
      * Add a book to the bookstore's inventory or update its quantity.
      *
-     * @param book     The book to add or update.
+     * @param book The book to add or update.
      */
     @PostMapping("/owner")
     public String setBook(@RequestBody Book book) {
@@ -115,26 +116,43 @@ public class BookstoreController {
         return "owner";
     }
 
-    /***
-     * A function for an owner to update the quantity of book
+    /**
+     * A function for an owner to update the properties of a book with the give ISBN
      * @param isbn The isbn of the book
      * @param quantity The new quantity of the book
+     * @param author The new author of the book
+     * @param title The new title of the book
+     * @param price The new price of the book
      * @return
      */
     @PatchMapping("/owner")
-    public String updateBookQuantity(@RequestParam("isbn") long isbn, @RequestParam("quantity") int quantity) {
+    public String updateBook
+    (@RequestParam(value = "isbn") long isbn,
+     @RequestParam(value = "quantity", required = false, defaultValue = "-1") int quantity,
+     @RequestParam(value = "author", required = false, defaultValue = "none") String author,
+     @RequestParam(value = "title", required = false, defaultValue = "none") String title,
+     @RequestParam(value = "price", required = false, defaultValue = "-1.00") float price) {
+
         // Check if the book already exists in the database
-        boolean bookExists = bookstoreRepository.existsByISBN(isbn);
-
-        if (bookExists) {
+        if (bookstoreRepository.existsByISBN(isbn)) {
             Book existingBook = bookstoreRepository.findByISBN(isbn);
-
-            if (quantity == 0) {
-                bookstoreRepository.delete(existingBook);
-            } else {
+            if (quantity > 0) {
                 existingBook.setQuantity(quantity);
-                bookstoreRepository.save(existingBook);
             }
+
+            if (!author.equals("none")) {
+                existingBook.setAuthor(author);
+            }
+
+            if (!title.equals("none")) {
+                existingBook.setTitle(title);
+            }
+
+            if (price > 0){
+                existingBook.setPrice(price);
+            }
+
+            bookstoreRepository.save(existingBook);
         }
 
         return "owner";

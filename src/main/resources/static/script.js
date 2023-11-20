@@ -89,17 +89,22 @@ $(document).ready(function () {
     $(document).on("submit", "#patchForm", function (event) {
 
         const data = {
-            isbn: $('#updateISBN').val(),
+            title: $('#newTitle').val(),
+            author: $('#newAuthor').val(),
+            isbn: $('#updateIsbn').val(),
+            price: $('#newPrice').val(),
             quantity: $('#newQuantity').val()
         };
 
         $.ajax({
             type: 'PATCH',
-            url: '/owner?isbn=' + data.isbn + "&quantity=" + data.quantity,
+            url: '/owner?isbn=' + data.isbn + "&quantity=" + data.quantity + "&author=" + data.author + "&title=" + data.title + "&price=" + data.price,
             data: JSON.stringify(data),
             contentType: 'application/json',
         })
             .done(() => {
+
+                console.log(data)
 
                 // After a successful PATCH request, make a separate AJAX call to get updated book data
                 $.ajax({

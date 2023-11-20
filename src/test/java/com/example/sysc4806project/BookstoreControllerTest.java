@@ -119,4 +119,42 @@ public class BookstoreControllerTest {
         // Verify that the removal fails as the book is not found in the bookRepository
         Mockito.verify(bookRepository, Mockito.never()).delete(Mockito.any(Book.class));
     }
+
+    /***
+     * This tests the updateBook() method defined within BookStoreController
+     */
+    @Test
+    public void testUpdateBook(){
+        // Mock behavior for repository
+        Book book = new Book("That Book", "Farhan", 10L,15,12);
+        Mockito.when(bookRepository.findByISBN(book.getISBN())).thenReturn(book);
+
+        // Adds the book to the repository
+        bookstore.setBook(book);
+        Mockito.verify(bookRepository, Mockito.times(1)).save(book);
+
+        // Changes the quantity for the book and updates the repository
+        book.setQuantity(1);
+        bookstore.updateBook(book.getISBN(), book.getQuantity(), null, null, -1);
+        Mockito.verify(bookRepository, Mockito.times(1)).save(book);
+        assertEquals(1, bookRepository.findByISBN(book.getISBN()).getQuantity());
+
+        // Changes the title for the book and updates the repository
+        book.setTitle("New Title");
+        bookstore.updateBook(book.getISBN(), -1, null, book.getAuthor(), -1);
+        Mockito.verify(bookRepository, Mockito.times(1)).save(book);
+        assertEquals("New Title", bookRepository.findByISBN(book.getISBN()).getTitle());
+
+        // Changes the author for the book and updates the repository
+        book.setAuthor("New Author");
+        bookstore.updateBook(book.getISBN(), -1, book.getTitle(), null, -1);
+        Mockito.verify(bookRepository, Mockito.times(1)).save(book);
+        assertEquals("New Author", bookRepository.findByISBN(book.getISBN()).getAuthor());
+
+        // Changes the price for the book and updates the repository
+        book.setPrice(500);
+        bookstore.updateBook(book.getISBN(), -1, null, null, book.getPrice());
+        Mockito.verify(bookRepository, Mockito.times(1)).save(book);
+        assertEquals(500, bookRepository.findByISBN(book.getISBN()).getPrice());
+    }
 }

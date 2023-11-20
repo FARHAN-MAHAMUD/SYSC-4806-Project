@@ -122,10 +122,26 @@
                     <div class="modal-body">
                         <form id="patchForm">
                             <div class="form-group">
-                                <label for="isbn">ISBN</label>
-                                <input type="number" id="updateISBN" class="form-control" placeholder="ISBN">
-                                <label for="quantity">Quantity</label>
-                                <input type="number" id="newQuantity" class="form-control" placeholder="Quantity">
+                                <div class="form-group">
+                                    <label for="title">Book Title</label>
+                                    <input type="text" id="newTitle" class="form-control" placeholder="Title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="author">Author</label>
+                                    <input type="text" id="newAuthor" class="form-control" placeholder="Author">
+                                </div>
+                                <div class="form-group">
+                                    <label for="isbn">ISBN</label>
+                                    <input type="number" id="updateIsbn" class="form-control" placeholder="ISBN">
+                                </div>
+                                <div class="form-group">
+                                    <label for="price">Price</label>
+                                    <input pattern="^\d*(\.\d{0,2})?$" id="newPrice" class="form-control" placeholder="Price">
+                                </div>
+                                <div class="form-group">
+                                    <label for="quantity">Quantity</label>
+                                    <input type="number" id="newQuantity" class="form-control" placeholder="Quantity">
+                                </div>
                             </div>
                         </form>
                     </div>
