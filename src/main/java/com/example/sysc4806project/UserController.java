@@ -85,7 +85,8 @@ public class UserController {
      * @param id user's ID that needs to check out
      * @return final price
      */
-    public float checkoutUser(@RequestParam("id") long id) {
+    @PostMapping("customer/checkoutUser")
+    public String checkoutUser(@RequestParam("id") long id) {
         User user = userRepository.findById(id);
         float price = 0.0F;
 
@@ -104,7 +105,9 @@ public class UserController {
             System.out.println("User not found or cart is empty!");
         }
         user.getShoppingCart().clear();
-        return price;
+        userRepository.save(user);
+//        return price;
+        return "customer";
     }
 
     /**
