@@ -98,7 +98,7 @@ public class BookstoreController {
         Book existingBook = bookstoreRepository.findByISBN(book.getISBN());
         if (existingBook != null && existingBook.getQuantity() >= quantity) {
             // Update the inventory
-//            existingBook.setQuantity(existingBook.getQuantity() - quantity);
+            existingBook.setQuantity(existingBook.getQuantity() - quantity);
             bookstoreRepository.save(existingBook);
             return quantity * existingBook.getPrice();
             // TODO: Perform the purchase
@@ -109,7 +109,7 @@ public class BookstoreController {
         }
         else if (existingBook != null && quantity > existingBook.getQuantity()) {
             float price = existingBook.getPrice() * existingBook.getQuantity();
-//            removeBook(existingBook.getISBN());
+            removeBook(existingBook.getISBN());
             return price;
         }
         return 0f;

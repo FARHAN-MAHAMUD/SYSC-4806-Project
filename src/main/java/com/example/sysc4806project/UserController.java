@@ -47,14 +47,7 @@ public class UserController {
         }
 
         user.addBookToCart(book, quantity);
-
-        int newQuantity = book.getQuantity() - quantity;
-
-        book.setQuantity(newQuantity);
-
         userRepository.save(user);
-        bookstoreRepository.save(book);
-
         return "customer";
     }
 
