@@ -62,13 +62,8 @@ public class UserController {
         User user = userRepository.findById(id);
         Book book = bookstoreRepository.findByISBN(isbn);
 
-        int removedAmount = user.removeBookFromCart(book, quantity);
-        int newQuantity = removedAmount + book.getQuantity();
-
-        book.setQuantity(newQuantity);
-
+        user.removeBookFromCart(book, quantity);
         userRepository.save(user);
-        bookstoreRepository.save(book);
 
         return "customer";
     }
