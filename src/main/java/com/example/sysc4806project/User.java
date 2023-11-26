@@ -98,13 +98,13 @@ public class User {
     }
 
     public int removeBookFromCart(Book book, int quantity){
-        int newAmount = 0;
+        int newAmount;
 
         if (this.shoppingCart.containsKey(book)){
             int currentAmount = this.shoppingCart.get(book);
 
             if (currentAmount < quantity){
-                this.shoppingCart.remove(book);
+//                this.shoppingCart.remove(book);
                 return currentAmount;
             } else {
                 newAmount = currentAmount - quantity;
