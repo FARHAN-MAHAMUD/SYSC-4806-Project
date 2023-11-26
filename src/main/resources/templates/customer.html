@@ -30,22 +30,30 @@
                 text-align: center;
                 margin-top: 80px;
             }
+            pre {
+              text-align: center;
+            }
         </style>
         <form th:action="@{/logout}" method="post">
             <input type="submit" value="Logout"/>
         </form>
         <h3 th:text="${'Welcome to Amazin Bookstore ' + name + '! Please pick an action to proceed. User ID = ' + userID}" />
         <p th:text="'Inventory:'"></p>
-        <p id="inventory" th:text="${books}"></p>
+        <pre id="inventory" th:text="${books}"></pre>
         <p th:text="'Cart:'" />
-        <p id="cart" th:text="${cart}"></p>
+        <pre id="cart" th:text="${cart}"></pre>
         <p>
             <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalPost">Add to cart</button>
             <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalDelete">Remove from cart</button>
             <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalComplete">Purchase Book</button>
         </p>
+        <div sec:authorize="hasRole('OWNER')">
+            <p>
+                <button onclick="window.location='/owner'">Manage Store</button>
+            </p>
+        </div>
         <p>
-            <button onclick="window.location='/loginHome'">Go back</button>
+            <button onclick="window.location='/'">Go back</button>
         </p>
         <!-- This modal is used to add books to the cart. It includes a form to choose a book by ISBN and quantity. -->
         <div class="modal" id="modalPost" tabindex="-1" role="dialog">
@@ -75,7 +83,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="submit" form="postCartForm" class="btn btn-primary">Add to cart</button>
+                  <button type="submit" form="postCartForm" class="btn btn-primary" data-bs-dismiss="modal">Add to cart</button>
                 </div>
               </div>
             </div>
@@ -108,7 +116,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="submit" form="deleteCartForm" class="btn btn-primary">Remove from cart</button>
+                  <button type="submit" form="deleteCartForm" class="btn btn-primary" data-bs-dismiss="modal">Remove from cart</button>
                 </div>
               </div>
             </div>
@@ -134,7 +142,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" form="checkoutCartForm" class="btn btn-primary">Complete Checkout</button>
+                        <button type="submit" form="checkoutCartForm" class="btn btn-primary" data-bs-dismiss="modal">Complete Checkout</button>
                     </div>
                 </div>
             </div>
