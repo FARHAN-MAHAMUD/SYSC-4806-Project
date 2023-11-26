@@ -2,9 +2,7 @@ package com.example.sysc4806project;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -37,41 +35,49 @@ public class UserController {
      * Adds a Book object to a user's cart based on the user's ID
      * @param id user's ID that needs the book added
      * @param quantity quantity of the book to be added
-     * @param book book to be added
+     * @param isbn ISBN of the book wanting to be added
      */
-    public void addItemToCart(@RequestParam("id") long id, @RequestParam("quantity") int quantity, @RequestBody Book book) {
+    @PostMapping("/customer/addBookToCart")
+    public String addItemToCart(@RequestParam("id") long id, @RequestParam("quantity") int quantity, @RequestParam("isbn") long isbn) {
         User user = userRepository.findById(id);
+        Book book = bookstoreRepository.findByISBN(isbn);
 
-        if (quantity > bookstoreRepository.findByISBN(book.getISBN()).getQuantity()) {
-            throw new ArithmeticException();
+        if (quantity > book.getQuantity()) {
+            quantity = book.getQuantity();
         }
 
-        try{
-            user.getShoppingCart().put(book, quantity);
-        } catch (NullPointerException nullPointerException) {
-            System.out.println("User not found!");
-        }
+        user.addBookToCart(book, quantity);
+
+        int newQuantity = book.getQuantity() - quantity;
+
+        book.setQuantity(newQuantity);
+
+        userRepository.save(user);
+        bookstoreRepository.save(book);
+
+        return "customer";
     }
 
     /**
      * Removes a Book object from a user's cart based on the user's ID
      * @param id user's ID that needs the book removed
      * @param quantity quantity of the book to be removed
-     * @param book book to be removed
+     * @param isbn the isbn of the book to be removed
      */
-    public void removeItemFromCart(@RequestParam("id") long id, @RequestParam("quantity") int quantity, @RequestBody Book book) {
+    @DeleteMapping("/customer/removeItemFromCart")
+    public String removeItemFromCart(@RequestParam("id") long id, @RequestParam("quantity") int quantity, @RequestParam("isbn") long isbn) {
         User user = userRepository.findById(id);
+        Book book = bookstoreRepository.findByISBN(isbn);
 
-        if (user.getShoppingCart().containsKey(book)) {
-            int oldQuantity = user.getShoppingCart().get(book);
-            if (oldQuantity == quantity) {
-                user.getShoppingCart().remove(book);
-            }
-            else {
-                user.getShoppingCart().put(book, oldQuantity - quantity);
-            }
+        int removedAmount = user.removeBookFromCart(book, quantity);
+        int newQuantity = removedAmount + book.getQuantity();
 
-        }
+        book.setQuantity(newQuantity);
+
+        userRepository.save(user);
+        bookstoreRepository.save(book);
+
+        return "customer";
     }
 
     /**
@@ -99,7 +105,7 @@ public class UserController {
         }
         user.getShoppingCart().clear();
         return price;
-     }
+    }
 
     /**
      * Used to display custom login screen
