@@ -321,4 +321,38 @@ $(document).ready(function () {
         event.preventDefault();
     });
 
+    // JavaScript to get recommended books
+    $(document).on("click", "#btnGetRecommendations", function () {
+        const userID = document.getElementById("userID").innerText;
+
+        $.ajax({
+            type: 'GET',
+            url: '/recommendations?userId=' + userID,
+            dataType: 'text',
+        })
+            .done((recommendations) => {
+                console.log({ recommendations });
+
+                // Manipulate the DOM to display the recommended books in the modal
+                const recommendationsContainer = $('#recommendationsContainer');
+                recommendationsContainer.empty(); // Clear previous content
+
+                // Split the string into an array of lines
+                const lines = recommendations.split('\n');
+
+                // Iterate over lines and create separate HTML elements for each
+                lines.forEach((line) => {
+                    const bookElement = $('<p>').text(line);
+                    recommendationsContainer.append(bookElement);
+                });
+
+                // Show the modal
+                $('#myModal').modal('show');
+            })
+            .fail((err) => {
+                console.error(err);
+            });
+    });
+
+
 });

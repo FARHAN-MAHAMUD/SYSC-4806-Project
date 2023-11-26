@@ -125,7 +125,7 @@ public class Book {
      */
     @Override
     public String toString() {
-        String results = String.format("Title: %s | Author: %s | ISBN: %d | Price: %.2f | Quantity: %d", title, author, ISBN, price, quantity);
+        String results = String.format("Title: %s | Author: %s | ISBN: %d | Price: %.2f | Quantity available: %d", title, author, ISBN, price, quantity);
         //openBook();
         return results;
     }
