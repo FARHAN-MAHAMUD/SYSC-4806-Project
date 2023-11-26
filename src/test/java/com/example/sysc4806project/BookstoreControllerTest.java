@@ -15,12 +15,15 @@ public class BookstoreControllerTest {
     @Mock
     private BookstoreRepository bookRepository;
 
+    @Mock
+    private  UserRepository userRepository;
+
     private BookstoreController bookstore;
 
     @BeforeEach
     public void setUp() throws Exception {
         try (var mocks = MockitoAnnotations.openMocks(this)) {
-            bookstore = new BookstoreController(bookRepository);
+            bookstore = new BookstoreController(bookRepository, userRepository);
         }
     }
 

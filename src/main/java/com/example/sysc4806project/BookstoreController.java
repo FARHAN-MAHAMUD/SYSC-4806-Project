@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.*;
 public class BookstoreController {
 
     private final BookstoreRepository bookstoreRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public BookstoreController(BookstoreRepository bookstoreRepository) {
+    public BookstoreController(BookstoreRepository bookstoreRepository, UserRepository userRepository) {
         this.bookstoreRepository = bookstoreRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -39,11 +41,22 @@ public class BookstoreController {
      */
     @GetMapping("/customer")
     public String customerView(@RequestParam(name = "name", required = false, defaultValue = "Jacob") String name, Model model) {
-        StringBuilder str = new StringBuilder();
-        bookstoreRepository.findAll().forEach(book -> str.append(book.toString() + "\n"));
+        User user = new User(name, false);
+        StringBuilder storeBooks = new StringBuilder();
+        StringBuilder cartBooks = new StringBuilder();
+
+        if(!userRepository.existsById(1L)) {
+            Book book1 = new Book("A", "A", 1L, 10, 111);
+            bookstoreRepository.save(book1);
+            userRepository.save(user);
+        }
+        bookstoreRepository.findAll().forEach(book -> storeBooks.append(book.toString() + "\n"));
+        userRepository.findById(1).getShoppingCart().forEach((book, amount) -> cartBooks.append(book.toString() + " | Amount: " + amount + "\n"));
 
         model.addAttribute("name", name);
-        model.addAttribute("books", str.toString());
+        model.addAttribute("books", storeBooks.toString());
+        model.addAttribute("cart", cartBooks.toString());
+        model.addAttribute("userID", 1L);
         return "customer";
     }
 
@@ -172,6 +185,14 @@ public class BookstoreController {
     public String getBooks() {
         StringBuilder str = new StringBuilder();
         bookstoreRepository.findAll().forEach(book -> str.append(book.toString() + "\n"));
+        return str.toString();
+    }
+
+    @GetMapping("/getCart")
+    @ResponseBody
+    public String getCart() {
+        StringBuilder str = new StringBuilder();
+        userRepository.findById(1).getShoppingCart().forEach((book, amount) -> str.append(book.toString() + " Amount: " + amount + "\n"));
         return str.toString();
     }
 }

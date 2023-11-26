@@ -34,13 +34,15 @@
         <form th:action="@{/logout}" method="post">
             <input type="submit" value="Logout"/>
         </form>
-        <h3 th:text="${'Welcome to Amazin Bookstore ' + name + '! Please pick an action to proceed.'}" />
-        <p th:text="'Inventory:'" />
-        <p th:text="${books}" />
+        <h3 th:text="${'Welcome to Amazin Bookstore ' + name + '! Please pick an action to proceed. User ID = ' + userID}" />
+        <p th:text="'Inventory:'"></p>
+        <p id="inventory" th:text="${books}"></p>
         <p th:text="'Cart:'" />
+        <p id="cart" th:text="${cart}"></p>
         <p>
-            <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalPost">Add to cart</button> 
-            <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalDelete">Remove from cart</button> 
+            <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalPost">Add to cart</button>
+            <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalDelete">Remove from cart</button>
+            <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalComplete">Purchase Book</button>
         </p>
         <p>
             <button onclick="window.location='/loginHome'">Go back</button>
@@ -58,12 +60,16 @@
                 <div class="modal-body">
                     <form id="postCartForm">
                         <div class="form-group">
-                            <label for="isbn">ISBN</label>
-                            <input type="number" id="isbn" class="form-control" placeholder="ISBN">
+                            <label for="buyingISBN">ISBN</label>
+                            <input type="number" id="buyingISBN" class="form-control" placeholder="ISBN">
                         </div>
                         <div class="form-group">
-                            <label for="quantity">Quantity</label>
-                            <input type="number" id="quantity" class="form-control" placeholder="Quantity">
+                            <label for="buyingQuantity">Quantity</label>
+                            <input type="number" id="buyingQuantity" class="form-control" placeholder="Quantity">
+                        </div>
+                        <div class="form-group">
+                            <label for="userID">User ID</label>
+                            <input type="number" id="userID" class="form-control" placeholder="User ID">
                         </div>
                     </form>
                 </div>
@@ -87,12 +93,16 @@
                 <div class="modal-body">
                     <form id="deleteCartForm">
                         <div class="form-group">
-                            <label for="isbn">ISBN</label>
-                            <input type="number" id="isbn" class="form-control" placeholder="ISBN">
+                            <label for="removeISBN">ISBN</label>
+                            <input type="number" id="removeISBN" class="form-control" placeholder="ISBN">
                         </div>
                         <div class="form-group">
-                            <label for="quantity">Quantity</label>
-                            <input type="number" id="quantity" class="form-control" placeholder="Quantity">
+                            <label for="removeQuantity">Quantity</label>
+                            <input type="number" id="removeQuantity" class="form-control" placeholder="Quantity">
+                        </div>
+                        <div class="form-group">
+                            <label for="currentUser">User ID</label>
+                            <input type="number" id="currentUser" class="form-control" placeholder="User ID">
                         </div>
                     </form>
                 </div>

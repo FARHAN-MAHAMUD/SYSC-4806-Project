@@ -14,7 +14,6 @@ public class Book {
     private String title;
     private String author;
 
-    @Id
     private long ISBN;
     private float price;
     private int quantity;
@@ -74,6 +73,8 @@ public class Book {
      * Get method returns the ISBN of the book.
      * @return String, the book's ISBN
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public long getISBN() {
         return ISBN;
     }

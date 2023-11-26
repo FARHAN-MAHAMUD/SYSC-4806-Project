@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "user1")
@@ -20,10 +21,10 @@ public class User {
     private String password;
 
     @ElementCollection
-    private HashMap<Book, Integer> shoppingCart = new HashMap<>();
+    private Map<Book, Integer> shoppingCart;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<PurchaseHistory> purchaseHistory = new ArrayList<>();
+    private List<PurchaseHistory> purchaseHistory;
 
     private final boolean ownerStatus;
 
@@ -42,8 +43,8 @@ public class User {
     public User(String name, boolean ownerStatus) {
         this.name = name;
         this.ownerStatus = ownerStatus;
+        this.shoppingCart = new HashMap<>();
     }
-
 
     /**
      * Getter for name
@@ -82,8 +83,38 @@ public class User {
      * Getter for the Shopping Cart
      * @return shopping cart atttribute
      */
-    public HashMap<Book, Integer> getShoppingCart() {
+    public Map<Book, Integer> getShoppingCart() {
         return shoppingCart;
+    }
+
+    public void addBookToCart(Book book, int quantity){
+        int newAmount = quantity;
+
+        if (this.shoppingCart.containsKey(book)){
+            newAmount += this.shoppingCart.get(book);
+        }
+
+        this.shoppingCart.put(book, newAmount);
+    }
+
+    public int removeBookFromCart(Book book, int quantity){
+        int newAmount = 0;
+
+        if (this.shoppingCart.containsKey(book)){
+            int currentAmount = this.shoppingCart.get(book);
+
+            if (currentAmount < quantity){
+                this.shoppingCart.remove(book);
+                return currentAmount;
+            } else {
+                newAmount = currentAmount - quantity;
+                this.shoppingCart.put(book, newAmount);
+                return quantity;
+            }
+        } else {
+            return 0;
+        }
+
     }
 
     /**
