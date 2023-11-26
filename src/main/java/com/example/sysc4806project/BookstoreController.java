@@ -51,7 +51,7 @@ public class BookstoreController {
             userRepository.save(user);
         }
         bookstoreRepository.findAll().forEach(book -> storeBooks.append(book.toString() + "\n"));
-        userRepository.findById(1).getShoppingCart().forEach((book, amount) -> cartBooks.append(book.toString() + " | Amount: " + amount + "\n"));
+        userRepository.findById(1).getShoppingCart().forEach((book, amount) -> cartBooks.append(book.toString() + " | Amount in cart: " + amount + "\n"));
 
         model.addAttribute("name", name);
         model.addAttribute("books", storeBooks.toString());

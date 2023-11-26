@@ -91,6 +91,9 @@ public class RecommendationService {
         List<User> allUsers = userRepository.findAll();
         List<User> usersWithSimilarPurchases = new ArrayList<>(allUsers);
 
+        // Remove the targetUser from the list
+        usersWithSimilarPurchases.remove(targetUser);
+
         // Calculate Jaccard similarity for each user and the targetUser
         usersWithSimilarPurchases.sort(Comparator.comparingDouble(user -> -calculateJaccardSimilarity(targetUser, user)));
 
