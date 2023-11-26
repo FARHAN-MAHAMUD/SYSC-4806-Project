@@ -144,12 +144,13 @@ $(document).ready(function () {
         const data = {
             isbn: $('#buyingISBN').val(),
             quantity: $('#buyingQuantity').val(),
-            ID: $('#userID').val()
         };
+
+        const userID = document.getElementById("userID").innerText
 
         $.ajax({
             type: 'POST',
-            url: '/customer/addBookToCart?id=' + data.ID + '&quantity=' + data.quantity + '&isbn=' + data.isbn,
+            url: '/customer/addBookToCart?id=' + userID + '&quantity=' + data.quantity + '&isbn=' + data.isbn,
             data: JSON.stringify(data),
             contentType: 'application/json',
         })
@@ -207,9 +208,11 @@ $(document).ready(function () {
             ID: $('#currentUser').val()
         };
 
+        const userID = document.getElementById("userID").innerText
+
         $.ajax({
             type: 'DELETE',
-            url: '/customer/removeItemFromCart?id=' + data.ID + '&quantity=' + data.quantity + '&isbn=' + data.isbn,
+            url: '/customer/removeItemFromCart?id=' + userID + '&quantity=' + data.quantity + '&isbn=' + data.isbn,
             data: JSON.stringify(data),
             contentType: 'application/json',
         })
@@ -265,9 +268,11 @@ $(document).ready(function () {
             ID: $('#checkoutUser').val()
         };
 
+        const userID = document.getElementById("userID").innerText
+
         $.ajax({
             type: 'POST',
-            url: '/customer/checkoutUser?id=' + data.ID,
+            url: '/customer/checkoutUser?id=' + userID,
             data: JSON.stringify(data),
             contentType: 'application/json',
         })

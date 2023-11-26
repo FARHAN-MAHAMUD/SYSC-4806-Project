@@ -34,11 +34,12 @@
         <form th:action="@{/logout}" method="post">
             <input type="submit" value="Logout"/>
         </form>
-        <h3 th:text="${'Welcome to Amazin Bookstore ' + name + '! Please pick an action to proceed. User ID = ' + userID}" />
+        <h3 th:text="${'Welcome to Amazin Bookstore ' + name + '! Please pick an action to proceed.'}" />
         <p th:text="'Inventory:'"></p>
         <p id="inventory" th:text="${books}"></p>
         <p th:text="'Cart:'" />
         <p id="cart" th:text="${cart}"></p>
+        <div id="userID" th:text="${userID}" style="display:none"></div>
         <p>
             <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalPost">Add to cart</button>
             <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalDelete">Remove from cart</button>
@@ -66,10 +67,6 @@
                         <div class="form-group">
                             <label for="buyingQuantity">Quantity</label>
                             <input type="number" id="buyingQuantity" class="form-control" placeholder="Quantity">
-                        </div>
-                        <div class="form-group">
-                            <label for="userID">User ID</label>
-                            <input type="number" id="userID" class="form-control" placeholder="User ID">
                         </div>
                     </form>
                 </div>
@@ -100,10 +97,6 @@
                             <label for="removeQuantity">Quantity</label>
                             <input type="number" id="removeQuantity" class="form-control" placeholder="Quantity">
                         </div>
-                        <div class="form-group">
-                            <label for="currentUser">User ID</label>
-                            <input type="number" id="currentUser" class="form-control" placeholder="User ID">
-                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -126,10 +119,6 @@
                     </div>
                     <div class="modal-body">
                         <form id="checkoutCartForm">
-                            <div class="form-group">
-                                <label for="checkoutUser">User ID</label>
-                                <input type="number" id="checkoutUser" class="form-control" placeholder="User ID">
-                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
