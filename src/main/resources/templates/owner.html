@@ -46,14 +46,14 @@
             <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalPatch">Update book</button>
         </p>
         <p>
-            <button onclick="window.location='/loginHome'">Go back</button>
+            <button onclick="window.location='/customer'">Go back</button>
         </p>
         <!-- This modal is used to add books to the shop inventory. It includes a form to specify all fields of the book to be added. If the book ISBN already exists, it will edit the other fields and add the specified quantity to existing quantity. -->
         <div class="modal" id="modalPost" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title">Add/edit Books</h5>
+                  <h5 class="modal-title">Add Books</h5>
                   <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -84,7 +84,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="submit" form="postForm" class="btn btn-primary" data-bs-dismiss="modal">Add/modify book</button>
+                  <button type="submit" form="postForm" class="btn btn-primary" data-bs-dismiss="modal">Add Book</button>
                 </div>
               </div>
             </div>
@@ -109,7 +109,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="submit" form="deleteForm" class="btn btn-primary">Delete book</button>
+                  <button type="submit" form="deleteForm" class="btn btn-primary" data-bs-dismiss="modal">Delete book</button>
                 </div>
               </div>
             </div>
@@ -152,7 +152,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" form="patchForm" class="btn btn-primary">Update book</button>
+                        <button type="submit" form="patchForm" class="btn btn-primary" data-bs-dismiss="modal">Update Book</button>
                     </div>
                 </div>
             </div>
@@ -162,7 +162,7 @@
     <!-- Default message for user's trying to access theis page-->
     <div sec:authorize="hasRole('USER')">
         <h1> UNAUTHORIZED ACCESS. Return back to home page below.</h1>
-        <a href="/loginHome" class="btn btn-primary">Home</a>
+        <a href="/" class="btn btn-primary">Home</a>
     </div>
 
     </body>

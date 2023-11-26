@@ -101,11 +101,6 @@ public class BookstoreController {
             existingBook.setQuantity(existingBook.getQuantity() - quantity);
             bookstoreRepository.save(existingBook);
             return quantity * existingBook.getPrice();
-            // TODO: Perform the purchase
-            // I'm assuming we'll have some table about purchase history so that will be implemented later
-            // Customer will add books to cart in the GUI, and when they click buy,
-            // for each book in the cart, it'll make an API call to our controller,
-            // which will call this, and check if it was successful
         }
         else if (existingBook != null && quantity > existingBook.getQuantity()) {
             float price = existingBook.getPrice() * existingBook.getQuantity();
