@@ -34,7 +34,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((authz) -> authz
                         //.requestMatchers("/owner").hasRole("OWNER") // restrict this template to owner's only
-                        //.requestMatchers("index.html").permitAll() // allow index access without login
+                        //.requestMatchers("/").permitAll() // allow index access without login
                         //.requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                         .anyRequest().authenticated() //all other URLs are blocked
                 )
@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .formLogin((form) -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/loginHome",true)
+                                .defaultSuccessUrl("/customer",true)
                                 .permitAll() // everybody has access to this page
                 ).logout((logout) -> logout
                         .invalidateHttpSession(true)
