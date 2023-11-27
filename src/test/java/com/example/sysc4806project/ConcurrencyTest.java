@@ -117,6 +117,24 @@ public class ConcurrencyTest {
         return response.getBody();
     }
 
+    /**
+     * Get request makes sure there is a user created when using customerView (temporary fix)
+     */
+    private void makeGetRequestToHaveAUser() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        headers.setBasicAuth("user", "userpass");
+        ResponseEntity<String> response = restTemplate.exchange(
+                "http://localhost:" + port + "/customer",
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                String.class
+        );
+        // Response Asserted
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertThat(response.getStatusCodeValue()).isEqualTo(200);
+    }
+
 
     private void makePostRequestWithOwner() {
         HttpHeaders headers = new HttpHeaders();
@@ -124,7 +142,7 @@ public class ConcurrencyTest {
         headers.setBasicAuth("owner", "ownerpass");
 
         // Set a book for the request body
-        Book book = new Book("To Kill a Mockingbird", "Harper Lee", 1, 20, 5);
+        Book book = new Book("To Kill a Mockingbird", "Harper Lee", 2, 20, 5);
         HttpEntity<Book> requestEntity = new HttpEntity<>(book, headers);
 
         System.out.println("OWNER BEFORE...");
@@ -145,7 +163,6 @@ public class ConcurrencyTest {
         assertThat(makeGetRequestWithOwner()).contains("To Kill a Mockingbird");
     }
 
-
     /**
      * Put something in shopping cart
      */
@@ -153,7 +170,7 @@ public class ConcurrencyTest {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         headers.setBasicAuth("user", "userpass");
-        String requestBody = "{ \"isbn\": \"1\", \"quantity\": 2 }";
+        String requestBody = "{ \"isbn\": \"2\", \"quantity\": 2 }";
 
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
@@ -166,8 +183,11 @@ public class ConcurrencyTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        //set a user in the system
+        makeGetRequestToHaveAUser();
+
         ResponseEntity<String> response = restTemplate.exchange(
-                "http://localhost:" + port + "/customer/addBookToCart?id=1&quantity=2&isbn=1",
+                "http://localhost:" + port + "/customer/addBookToCart?id=1&quantity=2&isbn=2",
                 HttpMethod.POST,
                 requestEntity,
                 String.class
