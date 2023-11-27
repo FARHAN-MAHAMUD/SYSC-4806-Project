@@ -21,7 +21,7 @@ $(document).ready(function () {
                 // After a successful POST request, make a separate AJAX call to get updated book data
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8080/getBooks',
+                    url: '/getBooks',
                     dataType: 'text',
                 })
                     .done((updatedBooks) => {
@@ -64,7 +64,7 @@ $(document).ready(function () {
                 // After a successful DELETE request, make a separate AJAX call to get updated book data
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8080/getBooks',
+                    url: '/getBooks',
                     dataType: 'text',
                 })
                     .done((updatedBooks) => {
@@ -113,7 +113,7 @@ $(document).ready(function () {
                 // After a successful PATCH request, make a separate AJAX call to get updated book data
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8080/getBooks',
+                    url: '/getBooks',
                     dataType: 'text',
                 })
                     .done((updatedBooks) => {
@@ -158,7 +158,7 @@ $(document).ready(function () {
                 // After a successful POST request, make a separate AJAX call to get updated book data
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8080/getBooks',
+                    url: '/getBooks',
                     dataType: 'text',
                 })
                     .done((updatedBooks) => {
@@ -175,7 +175,7 @@ $(document).ready(function () {
 
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8080/getCart',
+                    url: '/getCart',
                     dataType: 'text',
                 })
                     .done((updatedBooks) => {
@@ -220,7 +220,7 @@ $(document).ready(function () {
                 // After a successful POST request, make a separate AJAX call to get updated book data
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8080/getBooks',
+                    url: '/getBooks',
                     dataType: 'text',
                 })
                     .done((updatedBooks) => {
@@ -237,7 +237,7 @@ $(document).ready(function () {
 
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8080/getCart',
+                    url: '/getCart',
                     dataType: 'text',
                 })
                     .done((updatedBooks) => {
@@ -280,7 +280,7 @@ $(document).ready(function () {
                 // After a successful POST request, make a separate AJAX call to get updated book data
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8080/getBooks',
+                    url: '/getBooks',
                     dataType: 'text',
                 })
                     .done((updatedBooks) => {
@@ -297,7 +297,7 @@ $(document).ready(function () {
 
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8080/getCart',
+                    url: '/getCart',
                     dataType: 'text',
                 })
                     .done((updatedBooks) => {
