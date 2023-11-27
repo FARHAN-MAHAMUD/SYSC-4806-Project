@@ -27,7 +27,7 @@ In this milestone, we are currently building a prototype of our project. The mai
 In this milestone, we have built an alpha release. The main goals for this milestone are the following:
   - Have a somewhat usable system
   - Be very close to being feature complete
-  - Have most features be usable and correctly deployed on both Azure and CodeStar
+  - Have most features be usable and correctly deployed on Azure
 
 # Additions for Future Milestones:
   - Finalize the implementation of all remaining features
@@ -45,7 +45,7 @@ In this milestone, we have built an alpha release. The main goals for this miles
   - Subear: Implemented functional login system and security config + corresponding tests and concurrency tests
   - Jacob: Created AWS repo for this project and changed default view to user view unless user is an owner, as well as added the AJAX calls to auto refresh
   - Patrick: Implemented book recommendation feature and integrated feature fully with front end + corresponding tests
-  - Ilyes: Implemented purchaseBook backend feature in both controllers and backend checkout use case + corresponding tests
+  - Ilyes: Implemented purchaseBook backend feature in both controllers and backend checkout use case + corresponding tests and concurrency tests
    
 # Diagrams
 Object-Role-Modeling
