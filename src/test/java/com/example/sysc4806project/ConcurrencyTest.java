@@ -1,6 +1,6 @@
 package com.example.sysc4806project;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,7 +37,7 @@ public class ConcurrencyTest {
     @LocalServerPort
     private int port;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         // Add both users to InMemoryUserDetailsManager before tests
         UserDetails ownerUser = User.withUsername("owner")
