@@ -1,6 +1,7 @@
 package com.example.sysc4806project;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,8 @@ public class BookstoreController {
      * @param model The data model of the bookstore system.
      */
     @GetMapping("/owner")
-    public String ownerView(@RequestParam(name = "name", required = false, defaultValue = "Jacob") String name, Model model) {
+    public String ownerView(Model model) {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
         StringBuilder str = new StringBuilder();
         bookstoreRepository.findAll().forEach(book -> str.append(book.toString() + "\n"));
 
@@ -40,7 +42,8 @@ public class BookstoreController {
      * @param model The data model of the bookstore system.
      */
     @GetMapping("/customer")
-    public String customerView(@RequestParam(name = "name", required = false, defaultValue = "Jacob") String name, Model model) {
+    public String customerView(Model model) {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = new User(name, false);
         StringBuilder storeBooks = new StringBuilder();
         StringBuilder cartBooks = new StringBuilder();

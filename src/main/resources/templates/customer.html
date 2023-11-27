@@ -37,7 +37,7 @@
         <form th:action="@{/logout}" method="post">
             <input type="submit" value="Logout"/>
         </form>
-        <h3 th:text="${'Welcome to Amazin Bookstore ' + name + '! Please pick an action to proceed. User ID = ' + userID}" />
+        <h3 th:text="${'Welcome to Amazin Bookstore ' + name + '! Please pick an action to proceed.'}" />
         <p th:text="'Inventory:'"></p>
         <pre id="inventory" th:text="${books}"></pre>
         <p th:text="'Cart:'" />
