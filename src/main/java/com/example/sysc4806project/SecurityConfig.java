@@ -18,6 +18,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import static org.springframework.security.authorization.AuthorityAuthorizationManager.hasRole;
+
 /**
  * Configuration used to configure Spring's Security (as of spring boot 2.7.0+)
  */
@@ -33,7 +35,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http)  throws Exception {
         http
                 .authorizeHttpRequests((authz) -> authz
-                        //.requestMatchers("/owner").hasRole("OWNER") // restrict this template to owner's only
+                        //.requestMatchers("/owner").access(hasRole("OWNER")) // restrict this template to owner's only
                         //.requestMatchers("/").permitAll() // allow index access without login
                         //.requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                         .anyRequest().authenticated() //all other URLs are blocked
@@ -50,7 +52,6 @@ public class SecurityConfig {
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/login?logout")
                         .permitAll())
-                //.csrf().disable().cors();
                 //To allow any ajax functions to work
                 .csrf((csrf) -> csrf
                     .disable());

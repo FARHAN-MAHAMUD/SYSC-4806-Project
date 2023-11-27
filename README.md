@@ -33,3 +33,10 @@ In this milestone, we are currently building a prototype of our project. The mai
   - Jacob: Implement BookstoreController functionalities and repsective tests and made HTML views
   - Patrick: Implement Bookstore functionalities and respective tests
   - Ilyes: Implement User and UserController functionalities and respective tests
+
+# Diagrams
+Object-Role-Modeling
+![ORM Diagram](diagrams/SYSC4806Project-ORM.png)
+
+Unified-Modeling-Language
+![UML Diagram](diagrams/UML_M2.png)
