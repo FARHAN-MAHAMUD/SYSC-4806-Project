@@ -25,6 +25,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 
+/**
+ * Concurrency Class used to test the functionality of 2 users (owner & user) accessing the system simultaneously.
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ConcurrencyTest {
 
@@ -61,11 +64,16 @@ public class ConcurrencyTest {
         ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
 
         for (int i = 0; i < numThreads; i++) {
+            final int ownerOrUser = i;
             executorService.execute(() -> {
                 try {
-                    makePostRequestWithOwner();
-                    makePostRequestWithUser();
-
+                    // Owner Thread's requests
+                    if (ownerOrUser % 2 == 0) {
+                        makePostRequestWithOwner();
+                    } else {
+                        // User Thread's requests
+                        makePostRequestWithUser();
+                    }
                 } finally {
                     latch.countDown();
                 }
@@ -142,16 +150,22 @@ public class ConcurrencyTest {
      * Put something in shopping cart
      */
     private void makePostRequestWithUser() {
-        /*
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         headers.setBasicAuth("user", "userpass");
+        String requestBody = "{ \"isbn\": \"1\", \"quantity\": 2 }";
 
-        HttpEntity<Book> requestEntity = new HttpEntity<>(headers);
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
         System.out.println("USER BEFORE...");
-        System.out.println(makeGetRequestWithUser()); //doesn't have anything in cart
+        //System.out.println(makeGetRequestWithUser()); //doesn't have anything in cart
 
+        try {
+            // delay of 1 second for owner to put books
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         ResponseEntity<String> response = restTemplate.exchange(
                 "http://localhost:" + port + "/customer/addBookToCart?id=1&quantity=2&isbn=1",
                 HttpMethod.POST,
@@ -164,6 +178,6 @@ public class ConcurrencyTest {
 
         System.out.println("USER AFTER...");
         System.out.println(makeGetRequestWithUser());
-        assertThat(makeGetRequestWithUser()).contains("To Kill a Mockingbird");*/
+        assertThat(makeGetRequestWithUser()).contains("To Kill a Mockingbird");
     }
 }
