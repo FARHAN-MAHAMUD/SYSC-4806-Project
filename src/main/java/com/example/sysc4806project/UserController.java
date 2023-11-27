@@ -105,9 +105,4 @@ public class UserController {
     public String showLogin() {
         return "login";
     }
-
-    @GetMapping("/loginHome")
-    public String hello() {
-        return "loginHome";
-    }
 }

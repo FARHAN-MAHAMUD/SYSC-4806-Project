@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,12 +46,9 @@ class Sysc4806ProjectApplicationTests {
      * @throws Exception
      */
     @Test
-    @WithMockUser(username = "user1", roles = "USER")
     void homeShouldReturnDefaultMessage() throws Exception {
-        /*
-        //NOTE: These tests will always redirect to login as per Spring Security.
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/",
-                String.class)).contains("Please head to the login screen to continue!");*/
+                String.class)).contains("<title>Main Page</title>");
     }
 
     /**
@@ -60,9 +58,8 @@ class Sysc4806ProjectApplicationTests {
     @Test
     @WithMockUser
     void customerShouldReturnDefaultMessage() throws Exception {
-        /*
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/customer",
-                String.class)).contains("Please pick an action to proceed.");*/
+                String.class)).contains("<title>Customer</title>");
     }
 
     /**
@@ -72,8 +69,7 @@ class Sysc4806ProjectApplicationTests {
     @WithMockUser
     @Test
     void ownerShouldReturnDefaultMessage() throws Exception {
-        /*
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/owner",
-                String.class)).contains("Welcome to your store");*/
+                String.class)).contains("<title>Owner</title>");
     }
 }

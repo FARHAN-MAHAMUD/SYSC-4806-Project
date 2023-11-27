@@ -17,9 +17,6 @@ public class User {
 
     private String name = "Default";
 
-    private String username;
-    private String password;
-
     @ElementCollection
     private Map<Book, Integer> shoppingCart;
 
@@ -60,6 +57,14 @@ public class User {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * Getter for the ID attribute
+     * @return ID attribute
+     */
+    public long getUser_id() {
+        return user_id;
     }
 
     /**
@@ -115,13 +120,5 @@ public class User {
             return 0;
         }
 
-    }
-
-    /**
-     * Getter for the ID attribute
-     * @return ID attribute
-     */
-    public long getUser_id() {
-        return user_id;
     }
 }
