@@ -3,6 +3,7 @@ package com.example.sysc4806project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -13,16 +14,14 @@ public class RecommendationController {
 
     private final UserRepository userRepository;
     private final RecommendationService recommendationService;
-    private final BookstoreRepository bookstoreRepository;
 
 
     private final int NUM_SIMILAR_USERS = 1;
 
     @Autowired
-    public RecommendationController(UserRepository userRepository, RecommendationService recommendationService, BookstoreRepository bookstoreRepository) {
+    public RecommendationController(UserRepository userRepository, RecommendationService recommendationService) {
         this.userRepository = userRepository;
         this.recommendationService = recommendationService;
-        this.bookstoreRepository = bookstoreRepository;
     }
 
     @GetMapping("/recommendations")
