@@ -25,6 +25,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 
+/**
+ * Concurrency Class used to test the functionality of 2 users (owner & user) accessing the system simultaneously.
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ConcurrencyTest {
 
@@ -61,11 +64,16 @@ public class ConcurrencyTest {
         ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
 
         for (int i = 0; i < numThreads; i++) {
+            final int ownerOrUser = i;
             executorService.execute(() -> {
                 try {
-                    makePostRequestWithOwner();
-                    makePostRequestWithUser();
-
+                    // Owner Thread's requests
+                    if (ownerOrUser % 2 == 0) {
+                        makePostRequestWithOwner();
+                    } else {
+                        // User Thread's requests
+                        makePostRequestWithUser();
+                    }
                 } finally {
                     latch.countDown();
                 }
@@ -109,6 +117,24 @@ public class ConcurrencyTest {
         return response.getBody();
     }
 
+    /**
+     * Get request makes sure there is a user created when using customerView (temporary fix)
+     */
+    private void makeGetRequestToHaveAUser() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        headers.setBasicAuth("user", "userpass");
+        ResponseEntity<String> response = restTemplate.exchange(
+                "http://localhost:" + port + "/customer",
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                String.class
+        );
+        // Response Asserted
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertThat(response.getStatusCodeValue()).isEqualTo(200);
+    }
+
 
     private void makePostRequestWithOwner() {
         HttpHeaders headers = new HttpHeaders();
@@ -116,7 +142,7 @@ public class ConcurrencyTest {
         headers.setBasicAuth("owner", "ownerpass");
 
         // Set a book for the request body
-        Book book = new Book("To Kill a Mockingbird", "Harper Lee", 1, 20, 5);
+        Book book = new Book("To Kill a Mockingbird", "Harper Lee", 2, 20, 5);
         HttpEntity<Book> requestEntity = new HttpEntity<>(book, headers);
 
         System.out.println("OWNER BEFORE...");
@@ -137,23 +163,31 @@ public class ConcurrencyTest {
         assertThat(makeGetRequestWithOwner()).contains("To Kill a Mockingbird");
     }
 
-
     /**
      * Put something in shopping cart
      */
     private void makePostRequestWithUser() {
-        /*
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         headers.setBasicAuth("user", "userpass");
+        String requestBody = "{ \"isbn\": \"2\", \"quantity\": 2 }";
 
-        HttpEntity<Book> requestEntity = new HttpEntity<>(headers);
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
         System.out.println("USER BEFORE...");
-        System.out.println(makeGetRequestWithUser()); //doesn't have anything in cart
+        //System.out.println(makeGetRequestWithUser()); //doesn't have anything in cart
+
+        try {
+            // delay of 1 second for owner to put books
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //set a user in the system
+        makeGetRequestToHaveAUser();
 
         ResponseEntity<String> response = restTemplate.exchange(
-                "http://localhost:" + port + "/customer/addBookToCart?id=1&quantity=2&isbn=1",
+                "http://localhost:" + port + "/customer/addBookToCart?id=1&quantity=2&isbn=2",
                 HttpMethod.POST,
                 requestEntity,
                 String.class
@@ -164,6 +198,6 @@ public class ConcurrencyTest {
 
         System.out.println("USER AFTER...");
         System.out.println(makeGetRequestWithUser());
-        assertThat(makeGetRequestWithUser()).contains("To Kill a Mockingbird");*/
+        assertThat(makeGetRequestWithUser()).contains("To Kill a Mockingbird");
     }
 }

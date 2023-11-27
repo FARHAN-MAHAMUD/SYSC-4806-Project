@@ -3,7 +3,8 @@
 
 Project Status: [![Java CI with Maven](https://github.com/FARHAN-MAHAMUD/SYSC-4806-Project/actions/workflows/maven.yml/badge.svg)](https://github.com/FARHAN-MAHAMUD/SYSC-4806-Project/actions/workflows/maven.yml)
 
-Azure Link: sysc4810project.azurewebsites.net
+Azure Link: https://sysc4810project.azurewebsites.net/
+AWS CodeStar Link: http://ec2-13-59-196-47.us-east-2.compute.amazonaws.com/
 
 Team Members:
 * Farhan Mahamud - 101147861
@@ -42,7 +43,7 @@ In this milestone, we have built an alpha release. The main goals for this miles
 
 # Responsibilities for Milestone 2
   - Farhan: Implemented the update function for books and frontent checkout use case + corresponding tests
-  - Subear: Implemented functional login system and security config + corresponding tests and concurrency tests
+  - Subear: Implemented functional login system and security config + corresponding tests and concurrency tests for multiple users
   - Jacob: Created AWS repo for this project and changed default view to user view unless user is an owner, as well as added the AJAX calls to auto refresh
   - Patrick: Implemented book recommendation feature and integrated feature fully with front end + corresponding tests
   - Ilyes: Implemented purchaseBook backend feature in both controllers and backend checkout use case + corresponding tests and concurrency tests + README file

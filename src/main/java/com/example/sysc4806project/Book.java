@@ -74,7 +74,6 @@ public class Book {
      * @return String, the book's ISBN
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     public long getISBN() {
         return ISBN;
     }
