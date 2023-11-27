@@ -45,7 +45,7 @@ In this milestone, we have built an alpha release. The main goals for this miles
   - Subear: Implemented functional login system and security config + corresponding tests and concurrency tests
   - Jacob: Created AWS repo for this project and changed default view to user view unless user is an owner, as well as added the AJAX calls to auto refresh
   - Patrick: Implemented book recommendation feature and integrated feature fully with front end + corresponding tests
-  - Ilyes: Implemented purchaseBook backend feature in both controllers and backend checkout use case + corresponding tests and concurrency tests
+  - Ilyes: Implemented purchaseBook backend feature in both controllers and backend checkout use case + corresponding tests and concurrency tests + README file
    
 # Diagrams
 Object-Role-Modeling
