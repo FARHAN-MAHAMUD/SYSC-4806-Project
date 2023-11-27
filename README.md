@@ -23,17 +23,30 @@ In this milestone, we are currently building a prototype of our project. The mai
   - Deploy the application using AWS
   - Have a functioning UI using HTML and AJAX
 
-# Additions for Future Milestones:
-  - Adding a checkout feature for users
-  - Deploying the project using AWS
+## Milestone 2 (November 27, 2023):
+In this milestone, we have built an alpha release. The main goals for this milestone are the following:
+  - Have a somewhat usable system
+  - Be very close to being feature complete
+  - Have most features be usable and correctly deployed on both Azure and CodeStar
 
-# Responsibilities
+# Additions for Future Milestones:
+  - Finalize the implementation of all remaining features
+  - Finish the project
+
+# Responsibilities for Milestone 1
   - Farhan: Repository creation, CI/CD actions, README file, ORM and UML Diagram, and Azure Deployment
   - Subear: Implement Book and BookStoreController functionalities and respective tests
   - Jacob: Implement BookstoreController functionalities and repsective tests and made HTML views
   - Patrick: Implement Bookstore functionalities and respective tests
   - Ilyes: Implement User and UserController functionalities and respective tests
 
+# Responsibilities for Milestone 2
+  - Farhan: Implemented the update function for books and frontent checkout use case + corresponding tests
+  - Subear: Implemented functional login system and security config + corresponding tests and concurrency tests
+  - Jacob: Created AWS repo for this project and changed default view to user view unless user is an owner, as well as added the AJAX calls to auto refresh
+  - Patrick: Implemented book recommendation feature and integrated feature fully with front end + corresponding tests
+  - Ilyes: Implemented purchaseBook backend feature in both controllers and backend checkout use case + corresponding tests
+   
 # Diagrams
 Object-Role-Modeling
 ![ORM Diagram](diagrams/SYSC4806Project-ORM.png)
