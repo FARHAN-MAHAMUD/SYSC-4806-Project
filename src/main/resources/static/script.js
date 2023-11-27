@@ -174,7 +174,7 @@ $(document).ready(function () {
 
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8080/getCart',
+                    url: '/getCart',
                     dataType: 'text',
                 })
                     .done((updatedBooks) => {
@@ -234,7 +234,7 @@ $(document).ready(function () {
 
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8080/getCart',
+                    url: '/getCart',
                     dataType: 'text',
                 })
                     .done((updatedBooks) => {
@@ -292,7 +292,7 @@ $(document).ready(function () {
 
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8080/getCart',
+                    url: '/getCart',
                     dataType: 'text',
                 })
                     .done((updatedBooks) => {
