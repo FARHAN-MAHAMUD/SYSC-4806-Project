@@ -106,6 +106,7 @@ public class BookstoreController {
             return quantity * existingBook.getPrice();
         }
         else if (existingBook != null && quantity > existingBook.getQuantity()) {
+            System.out.println("A");
             float price = existingBook.getPrice() * existingBook.getQuantity();
             removeBook(existingBook.getISBN());
             return price;
@@ -123,9 +124,11 @@ public class BookstoreController {
     public String removeBook(@RequestParam("isbn") long isbn) {
         // Check if the book already exists in the database
         boolean bookExists = bookstoreRepository.existsByISBN(isbn);
+        System.out.println("RemoveBook: " + bookExists);
 
         if (bookExists) {
             Book existingBook = bookstoreRepository.findByISBN(isbn);
+            System.out.println(existingBook);
             bookstoreRepository.delete(existingBook);
         }
         return "owner";
