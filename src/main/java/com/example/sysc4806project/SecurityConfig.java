@@ -44,7 +44,7 @@ public class SecurityConfig {
                 .formLogin((form) -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/customer",true)
+                                .defaultSuccessUrl("/",true)
                                 .permitAll() // everybody has access to this page
                 ).logout((logout) -> logout
                         .invalidateHttpSession(true)
