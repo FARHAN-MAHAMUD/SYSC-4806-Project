@@ -39,15 +39,18 @@ public class UserController {
      */
     @PostMapping("/customer/addBookToCart")
     public String addItemToCart(@RequestParam("id") long id, @RequestParam("quantity") int quantity, @RequestParam("isbn") long isbn) {
-        User user = userRepository.findById(id);
-        Book book = bookstoreRepository.findByISBN(isbn);
 
-        if (quantity > book.getQuantity()) {
-            quantity = book.getQuantity();
+        if (quantity > 0) {
+            User user = userRepository.findById(id);
+            Book book = bookstoreRepository.findByISBN(isbn);
+
+            if (quantity > book.getQuantity()) {
+                quantity = book.getQuantity();
+            }
+
+            user.addBookToCart(book, quantity);
+            userRepository.save(user);
         }
-
-        user.addBookToCart(book, quantity);
-        userRepository.save(user);
         return "customer";
     }
 
@@ -59,11 +62,14 @@ public class UserController {
      */
     @DeleteMapping("/customer/removeItemFromCart")
     public String removeItemFromCart(@RequestParam("id") long id, @RequestParam("quantity") int quantity, @RequestParam("isbn") long isbn) {
-        User user = userRepository.findById(id);
-        Book book = bookstoreRepository.findByISBN(isbn);
 
-        user.removeBookFromCart(book, quantity);
-        userRepository.save(user);
+        if (quantity > 0) {
+            User user = userRepository.findById(id);
+            Book book = bookstoreRepository.findByISBN(isbn);
+
+            user.removeBookFromCart(book, quantity);
+            userRepository.save(user);
+        }
 
         return "customer";
     }
@@ -75,25 +81,30 @@ public class UserController {
      */
     @PostMapping("customer/checkoutUser")
     public String checkoutUser(@RequestParam("id") long id) {
-        User user = userRepository.findById(id);
-        float price = 0.0F;
 
-        try {
-            for (Map.Entry<Book, Integer> entry: user.getShoppingCart().entrySet()){
-                price += bookstoreController.purchaseBook(entry.getValue(), entry.getKey());
+        System.out.println(userRepository.existsById(id));
 
-                // Add a record to the purchase history
-                PurchaseHistory purchaseRecord = new PurchaseHistory();
-                purchaseRecord.setUser(user);
-                purchaseRecord.setBookId(entry.getKey());
-                purchaseRecord.setPurchaseDate(LocalDateTime.now());
-                purchaseHistoryRepository.save(purchaseRecord);
+        if (userRepository.existsById(id)) {
+            User user = userRepository.findById(id);
+            float price = 0.0F;
+
+            try {
+                for (Map.Entry<Book, Integer> entry : user.getShoppingCart().entrySet()) {
+                    price += bookstoreController.purchaseBook(entry.getValue(), entry.getKey());
+
+                    // Add a record to the purchase history
+                    PurchaseHistory purchaseRecord = new PurchaseHistory();
+                    purchaseRecord.setUser(user);
+                    purchaseRecord.setBookId(entry.getKey());
+                    purchaseRecord.setPurchaseDate(LocalDateTime.now());
+                    purchaseHistoryRepository.save(purchaseRecord);
+                }
+            } catch (NullPointerException nullPointerException) {
+                System.out.println("User not found or cart is empty!");
             }
-        } catch(NullPointerException nullPointerException){
-            System.out.println("User not found or cart is empty!");
+            user.getShoppingCart().clear();
+            userRepository.save(user);
         }
-        user.getShoppingCart().clear();
-        userRepository.save(user);
 //        return price;
         return "customer";
     }
