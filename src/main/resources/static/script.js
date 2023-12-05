@@ -46,7 +46,6 @@ $(document).ready(function () {
             });
     }
 
-
     function updateCart() {
         $.ajax({
             type: 'GET',
@@ -195,6 +194,54 @@ $(document).ready(function () {
             });
         event.preventDefault();
     });
+
+    $(document).on("click", "#btnPurchaseBooks", function (event) {
+        $.ajax({
+            type: 'GET',
+            url: '/getCart',
+        })
+            .done((displayCart) => {
+                console.log({ displayCart });
+
+                // Manipulate the DOM to update the cart information
+                const cartContainer = $('#checkoutCartForm');
+                cartContainer.empty(); // Clear previous content
+
+                // Create an unordered list for the cart items
+                const cartList = $('<ul>').addClass('cart-list');
+
+                // Iterate over the array of cart items and create list items for each
+                displayCart.forEach((cartItem) => {
+                    const title = cartItem.Title;
+                    const author = cartItem.Author;
+                    const isbn = cartItem.ISBN;
+                    const price = cartItem.Price;
+                    const available = cartItem.Available;
+                    const quantity = cartItem.Quantity;
+
+                    // Create list item with data attributes for ISBN and quantity
+                    const cartItemElement = $('<li>')
+                        .addClass('cart-item')
+                        .text(`Title: ${title} | Author: ${author} | ISBN: ${isbn} | Price: ${price} | Quantity available: ${available} | Amount in cart: ${quantity}`)
+                        .data({
+                            'isbn': isbn,
+                            'quantity': quantity
+                        });
+
+                    cartList.append(cartItemElement);
+                });
+
+                // Append the list to the cart container
+                cartContainer.append(cartList);
+            })
+            .fail((err) => {
+                console.error(err);
+            })
+            .always(() => {
+                console.log('always called');
+            });
+    });
+
 
     // JavaScript for a customer to add a book to their cart
     $(document).on("submit", "#postCartForm", function (event) {
