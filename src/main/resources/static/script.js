@@ -1,5 +1,107 @@
 $(document).ready(function () {
 
+    // Function to update books in the inventory
+    function updateInventory() {
+        $.ajax({
+            type: 'GET',
+            url: '/getBooks',
+            dataType: 'json',  // Update to JSON
+        })
+            .done((updatedBooks) => {
+                console.log({ updatedBooks });
+
+                // Manipulate the DOM to update the book information
+                const booksContainer = $('#inventory');
+                booksContainer.empty(); // Clear previous content
+
+                // Create an unordered list for the books
+                const booksList = $('<ul>').addClass('book-list');
+
+                // Iterate over the array of books and create list items for each
+                updatedBooks.forEach((book) => {
+                    const title = book.title;
+                    const author = book.author;
+                    const isbn = book.isbn;
+                    const price = book.price;
+                    const quantityAvailable = book.quantity;
+
+                    const bookItem = $('<li>')
+                        .addClass('book-item')
+                        .text(`Title: ${title} | Author: ${author} | ISBN: ${isbn} | Price: ${price} | Quantity available: ${quantityAvailable}`)
+                        .data('isbn', isbn);
+
+                    // Add a click event to toggle a class for highlighting
+                    bookItem.click(function () {
+                        $(this).toggleClass('highlighted');
+                    });
+
+                    booksList.append(bookItem);
+                });
+
+                // Append the list to the inventory container
+                booksContainer.append(booksList);
+            })
+            .fail((err) => {
+                console.error(err);
+            });
+    }
+
+
+    function updateCart() {
+        $.ajax({
+            type: 'GET',
+            url: '/getCart',
+            dataType: 'json',
+        })
+            .done((updatedCart) => {
+                console.log({ updatedCart });
+
+                // Manipulate the DOM to update the cart information
+                const cartContainer = $('#cart');
+                cartContainer.empty(); // Clear previous content
+
+                // Create an unordered list for the cart items
+                const cartList = $('<ul>').addClass('cart-list');
+
+                // Iterate over the array of cart items and create list items for each
+                updatedCart.forEach((cartItem) => {
+                    const title = cartItem.Title;
+                    const author = cartItem.Author;
+                    const isbn = cartItem.ISBN;
+                    const price = cartItem.Price;
+                    const available = cartItem.Available;
+                    const quantity = cartItem.Quantity;
+
+                    // Create list item with data attributes for ISBN and quantity
+                    const cartItemElement = $('<li>')
+                        .addClass('cart-item')
+                        .text(`Title: ${title} | Author: ${author} | ISBN: ${isbn} | Price: ${price} | Quantity available: ${available} | Amount in cart: ${quantity}`)
+                        .data({
+                            'isbn': isbn,
+                            'quantity': quantity
+                        });
+
+                    // Add a click event to toggle a class for highlighting
+                    cartItemElement.click(function () {
+                        $(this).toggleClass('highlighted');
+                    });
+
+                    cartList.append(cartItemElement);
+                });
+
+                // Append the list to the cart container
+                cartContainer.append(cartList);
+            })
+            .fail((err) => {
+                console.error(err);
+            });
+    }
+
+    // update upon loading page
+    updateInventory();
+    updateCart();
+
+
     // JavaScript for an owner adding a book to the store
     $(document).on("submit", "#postForm", function (event) {
 
@@ -18,23 +120,9 @@ $(document).ready(function () {
             contentType: 'application/json',
         })
             .done(() => {
-                // After a successful POST request, make a separate AJAX call to get updated book data
-                $.ajax({
-                    type: 'GET',
-                    url: '/getBooks',
-                    dataType: 'text',
-                })
-                    .done((updatedBooks) => {
-                        // Log the updated book data to the console
-                        console.log({ updatedBooks });
-
-                        // Manipulate the DOM to update the book information
-                        const booksContainer = $('#inventory');
-                        booksContainer.text(updatedBooks);
-                    })
-                    .fail((err) => {
-                        console.error(err);
-                    });
+                // After a successful POST request, update inventory and cart
+                updateInventory();
+                updateCart();
             })
             .fail((err) => {
                 console.error(err);
@@ -61,24 +149,9 @@ $(document).ready(function () {
             .done(() => {
 
                 console.log(data)
-                // After a successful DELETE request, make a separate AJAX call to get updated book data
-                $.ajax({
-                    type: 'GET',
-                    url: '/getBooks',
-                    dataType: 'text',
-                })
-                    .done((updatedBooks) => {
-                        // Log the updated book data to the console
-                        console.log({ updatedBooks });
-
-                        // Manipulate the DOM to update the book information
-                        const booksContainer = $('#inventory');
-                        booksContainer.text(updatedBooks);
-
-                    })
-                    .fail((err) => {
-                        console.error(err);
-                    });
+                // After a successful POST request, update inventory and cart
+                updateInventory();
+                updateCart();
             })
             .fail((err) => {
                 console.error(err);
@@ -110,24 +183,9 @@ $(document).ready(function () {
 
                 console.log(data)
 
-                // After a successful PATCH request, make a separate AJAX call to get updated book data
-                $.ajax({
-                    type: 'GET',
-                    url: '/getBooks',
-                    dataType: 'text',
-                })
-                    .done((updatedBooks) => {
-                        // Log the updated book data to the console
-                        console.log({ updatedBooks });
-
-                        // Manipulate the DOM to update the book information
-                        const booksContainer = $('#inventory');
-                        booksContainer.text(updatedBooks);
-
-                    })
-                    .fail((err) => {
-                        console.error(err);
-                    });
+                // After a successful POST request, update inventory and cart
+                updateInventory();
+                updateCart();
             })
             .fail((err) => {
                 console.error(err);
@@ -155,40 +213,9 @@ $(document).ready(function () {
             contentType: 'application/json',
         })
             .done(() => {
-                // After a successful POST request, make a separate AJAX call to get updated book data
-                $.ajax({
-                    type: 'GET',
-                    url: '/getBooks',
-                    dataType: 'text',
-                })
-                    .done((updatedBooks) => {
-                        // Log the updated book data to the console
-                        console.log({ updatedBooks });
-
-                        // Manipulate the DOM to update the book information
-                        const booksContainer = $('#inventory');
-                        booksContainer.text(updatedBooks);
-                    })
-                    .fail((err) => {
-                        console.error(err);
-                    });
-
-                $.ajax({
-                    type: 'GET',
-                    url: '/getCart',
-                    dataType: 'text',
-                })
-                    .done((updatedBooks) => {
-                        // Log the updated book data to the console
-                        console.log({ updatedBooks });
-
-                        // Manipulate the DOM to update the book information
-                        const booksContainer = $('#cart');
-                        booksContainer.text(updatedBooks);
-                    })
-                    .fail((err) => {
-                        console.error(err);
-                    });
+                // After a successful POST request, update inventory and cart
+                updateInventory();
+                updateCart();
             })
             .fail((err) => {
                 console.error(err);
@@ -217,40 +244,9 @@ $(document).ready(function () {
             contentType: 'application/json',
         })
             .done(() => {
-                // After a successful POST request, make a separate AJAX call to get updated book data
-                $.ajax({
-                    type: 'GET',
-                    url: '/getBooks',
-                    dataType: 'text',
-                })
-                    .done((updatedBooks) => {
-                        // Log the updated book data to the console
-                        console.log({ updatedBooks });
-
-                        // Manipulate the DOM to update the book information
-                        const booksContainer = $('#inventory');
-                        booksContainer.text(updatedBooks);
-                    })
-                    .fail((err) => {
-                        console.error(err);
-                    });
-
-                $.ajax({
-                    type: 'GET',
-                    url: '/getCart',
-                    dataType: 'text',
-                })
-                    .done((updatedBooks) => {
-                        // Log the updated book data to the console
-                        console.log({ updatedBooks });
-
-                        // Manipulate the DOM to update the book information
-                        const booksContainer = $('#cart');
-                        booksContainer.text(updatedBooks);
-                    })
-                    .fail((err) => {
-                        console.error(err);
-                    });
+                // After a successful POST request, update inventory and cart
+                updateInventory();
+                updateCart();
             })
             .fail((err) => {
                 console.error(err);
@@ -261,7 +257,7 @@ $(document).ready(function () {
         event.preventDefault();
     });
 
-    // JavaScript for a customer to checkout
+    // JavaScript for a customer to check out
     $(document).on("submit", "#checkoutCartForm", function (event) {
 
         const data = {
@@ -277,40 +273,9 @@ $(document).ready(function () {
             contentType: 'application/json',
         })
             .done(() => {
-                // After a successful POST request, make a separate AJAX call to get updated book data
-                $.ajax({
-                    type: 'GET',
-                    url: '/getBooks',
-                    dataType: 'text',
-                })
-                    .done((updatedBooks) => {
-                        // Log the updated book data to the console
-                        console.log({ updatedBooks });
-
-                        // Manipulate the DOM to update the book information
-                        const booksContainer = $('#inventory');
-                        booksContainer.text(updatedBooks);
-                    })
-                    .fail((err) => {
-                        console.error(err);
-                    });
-
-                $.ajax({
-                    type: 'GET',
-                    url: '/getCart',
-                    dataType: 'text',
-                })
-                    .done((updatedBooks) => {
-                        // Log the updated book data to the console
-                        console.log({ updatedBooks });
-
-                        // Manipulate the DOM to update the book information
-                        const booksContainer = $('#cart');
-                        booksContainer.text(updatedBooks);
-                    })
-                    .fail((err) => {
-                        console.error(err);
-                    });
+                // After a successful POST request, update inventory and cart
+                updateInventory();
+                updateCart();
             })
             .fail((err) => {
                 console.error(err);
@@ -354,5 +319,67 @@ $(document).ready(function () {
             });
     });
 
+    // Add event listener for the button to add 1 of each selected book to the cart
+    $(document).on("click", "#btnAddSelectedToCart", function () {
+        // Get all highlighted items
+        const highlightedItems = $('.highlighted');
 
+        // Iterate over highlighted items and add each to the cart
+        highlightedItems.each(function () {
+            const isbn = $(this).data('isbn'); // Assuming you have a data attribute for ISBN
+            const quantity = 1; // You can customize the quantity as needed
+
+            const data = {
+                isbn: isbn,
+                quantity: quantity
+            };
+
+            const userID = document.getElementById("userID").innerText;
+
+            $.ajax({
+                type: 'POST',
+                url: '/customer/addBookToCart?id=' + userID + '&quantity=' + data.quantity + '&isbn=' + data.isbn,
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+            })
+                .done(() => {
+                    // After a successful POST request, update inventory and cart
+                    updateInventory();
+                    updateCart();
+                })
+                .fail((err) => {
+                    console.error(err);
+                })
+                .always(() => {
+                    console.log('always called');
+                });
+        });
+    });
+
+    $(document).on("click", "#btnRemoveSelectedFromCart", function () {
+        // Get all highlighted cart items
+        const highlightedItems = $('.cart-item.highlighted');
+
+        // Iterate over highlighted items and remove each one
+        highlightedItems.each(function () {
+            const isbn = $(this).data('isbn');
+            const quantity = $(this).data('quantity');
+
+            // Call the server-side endpoint to remove the item from the cart
+            const userID = document.getElementById("userID").innerText;
+            $.ajax({
+                type: 'DELETE',
+                url: '/customer/removeItemFromCart?id=' + userID + '&quantity=' + quantity + '&isbn=' + isbn,
+                contentType: 'application/json',
+            })
+                .done(() => {
+                    // After a successful DELETE request, update inventory and cart
+                    updateInventory();
+                    updateCart();
+                })
+                .fail((err) => {
+                    console.error(err);
+                });
+        });
+    });
 });

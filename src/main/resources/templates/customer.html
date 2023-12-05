@@ -33,6 +33,15 @@
             pre {
               text-align: center;
             }
+            .book-list,
+            .cart-list {
+                list-style-type: none; /* Remove bullet points for list items */
+            }
+
+            .highlighted {
+                background-color: yellow; /* Set the background color for highlighted items */
+                /* Add any other styles you want for highlighted items */
+            }
         </style>
         <form th:action="@{/logout}" method="post">
             <input type="submit" value="Logout"/>
@@ -45,10 +54,14 @@
         <div id="userID" th:text="${userID}" style="display:none"></div>
         <p>
             <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalPost">Add to cart</button>
-            <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalDelete">Remove from cart</button>
-            <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalComplete">Purchase Book</button>
+            <button type="button" class="btn btn-primary largebutton" id="btnAddSelectedToCart">Add 1 of selected to Cart</button>
         </p>
         <p>
+            <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalDelete">Remove from cart</button>
+            <button type="button" class="btn btn-primary largebutton" id="btnRemoveSelectedFromCart">Remove selected books from Cart</button>
+        </p>
+        <p>
+            <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalComplete">Purchase Books</button>
             <button type="button" class="btn btn-primary largebutton" id="btnGetRecommendations" data-bs-toggle="modal" data-bs-target="#modalRecommendations">Get Recommendations</button>
         </p>
         <div sec:authorize="hasRole('OWNER')">

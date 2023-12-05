@@ -1,10 +1,17 @@
 package com.example.sysc4806project;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class BookstoreController {
@@ -183,17 +190,34 @@ public class BookstoreController {
      */
     @GetMapping("/getBooks")
     @ResponseBody
-    public String getBooks() {
-        StringBuilder str = new StringBuilder();
-        bookstoreRepository.findAll().forEach(book -> str.append(book.toString() + "\n"));
-        return str.toString();
+    public ResponseEntity<List<Book>> getBooks() {
+        List<Book> books = (List<Book>) bookstoreRepository.findAll();
+        return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
     @GetMapping("/getCart")
     @ResponseBody
-    public String getCart() {
-        StringBuilder str = new StringBuilder();
-        userRepository.findById(1).getShoppingCart().forEach((book, amount) -> str.append(book.toString() + " Amount: " + amount + "\n"));
-        return str.toString();
+    public ResponseEntity<List<Map<String, Object>>> getCart() {
+        User user = userRepository.findById(1L);
+        Map<Book, Integer> shoppingCart = user.getShoppingCart();
+
+        List<Map<String, Object>> cartList = new ArrayList<>();
+
+        for (Map.Entry<Book, Integer> entry : shoppingCart.entrySet()) {
+            Map<String, Object> cartItem = new HashMap<>();
+            Book book = entry.getKey();
+
+            cartItem.put("Title", book.getTitle());
+            cartItem.put("Author", book.getAuthor());
+            cartItem.put("ISBN", book.getISBN());
+            cartItem.put("Price", book.getPrice());
+            cartItem.put("Available", book.getQuantity());
+            cartItem.put("Quantity", entry.getValue());
+
+            cartList.add(cartItem);
+        }
+
+        return new ResponseEntity<>(cartList, HttpStatus.OK);
     }
+
 }
