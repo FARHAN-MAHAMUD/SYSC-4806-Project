@@ -61,7 +61,7 @@
             <button type="button" class="btn btn-primary largebutton" id="btnRemoveSelectedFromCart">Remove selected books from Cart</button>
         </p>
         <p>
-            <button type="button" class="btn btn-primary largebutton" data-bs-toggle="modal" data-bs-target="#modalComplete">Purchase Books</button>
+            <button type="button" class="btn btn-primary largebutton" id="btnPurchaseBooks" data-bs-toggle="modal" data-bs-target="#modalComplete">Purchase Books</button>
             <button type="button" class="btn btn-primary largebutton" id="btnGetRecommendations" data-bs-toggle="modal" data-bs-target="#modalRecommendations">Get Recommendations</button>
         </p>
         <div sec:authorize="hasRole('OWNER')">
@@ -142,8 +142,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="checkoutCartForm">
-                        </form>
+                        <form id="checkoutCartForm"></form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
