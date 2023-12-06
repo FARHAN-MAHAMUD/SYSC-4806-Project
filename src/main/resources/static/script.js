@@ -1,3 +1,4 @@
+// AJAX functions used to realtime update the website upon HTML requests
 $(document).ready(function () {
 
     // Function to update books in the inventory
@@ -46,6 +47,7 @@ $(document).ready(function () {
             });
     }
 
+    // Function to update books in cart
     function updateCart() {
         $.ajax({
             type: 'GET',
@@ -403,6 +405,7 @@ $(document).ready(function () {
         });
     });
 
+    // Function to remove selected book from the shopping cart
     $(document).on("click", "#btnRemoveSelectedFromCart", function () {
         // Get all highlighted cart items
         const highlightedItems = $('.cart-item.highlighted');
