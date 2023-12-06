@@ -9,21 +9,43 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * A REST controller for controlling the recommendation functionality
+ */
 @RestController
 public class RecommendationController {
 
+    /**
+     * The program wide user repository
+     */
     private final UserRepository userRepository;
+
+    /**
+     * The recommendation service associated with the controller
+     */
     private final RecommendationService recommendationService;
 
-
+    /**
+     * The number of similar users
+     */
     private final int NUM_SIMILAR_USERS = 1;
 
+    /**
+     * The default controller
+     * @param userRepository
+     * @param recommendationService
+     */
     @Autowired
     public RecommendationController(UserRepository userRepository, RecommendationService recommendationService) {
         this.userRepository = userRepository;
         this.recommendationService = recommendationService;
     }
 
+    /**
+     * Gets the recommendations for a user based on similar purchases
+     * @param userId
+     * @return
+     */
     @GetMapping("/recommendations")
     public String getRecommendations(@RequestParam("userId") long userId) {
         User currentUser = userRepository.findById(userId);
