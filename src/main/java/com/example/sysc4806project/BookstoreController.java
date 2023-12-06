@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A class for controlling the book store
+ */
 @Controller
 public class BookstoreController {
 
@@ -28,7 +31,6 @@ public class BookstoreController {
     /**
      * Opens the owner html page view.
      *
-     * @param name  The name of the current user navigating the page.
      * @param model The data model of the bookstore system.
      */
     @GetMapping("/owner")
@@ -45,7 +47,6 @@ public class BookstoreController {
     /**
      * Opens the customer html page view.
      *
-     * @param name  The name of the current user navigating the page.
      * @param model The data model of the bookstore system.
      */
     @GetMapping("/customer")
@@ -195,6 +196,10 @@ public class BookstoreController {
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
+    /**
+     * Gets all of the books in a user's cart
+     * @return
+     */
     @GetMapping("/getCart")
     @ResponseBody
     public ResponseEntity<List<Map<String, Object>>> getCart() {

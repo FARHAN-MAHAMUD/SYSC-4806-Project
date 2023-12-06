@@ -11,13 +11,24 @@ import jakarta.persistence.Id;
 @Entity
 public class Book {
 
+    // A string attribute for the title of the book
     private String title;
+
+    // A string attribute for the author of the book
     private String author;
 
+    // A long attribute for the author of the book
     private long ISBN;
+
+    // A float attribute for the price of the book
     private float price;
+
+    // An integer attribute for the quantity of the book
     private int quantity;
 
+    /**
+     * The default constructor
+     */
     public Book() {
     }
 

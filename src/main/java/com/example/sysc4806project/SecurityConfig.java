@@ -35,9 +35,6 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http)  throws Exception {
         http
                 .authorizeHttpRequests((authz) -> authz
-                        //.requestMatchers("/owner").access(hasRole("OWNER")) // restrict this template to owner's only
-                        //.requestMatchers("/").permitAll() // allow index access without login
-                        //.requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                         .anyRequest().authenticated() //all other URLs are blocked
                 )
                 //custom login page (no httpBasic)

@@ -5,19 +5,40 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+/**
+ * A class for creating a service for the recommendations
+ */
 @Service
 public class RecommendationService {
 
+    /**
+     * The database for the purchase history
+     */
     private final PurchaseHistoryRepository purchaseHistoryRepository;
+
+    /**
+     * The database for the users
+     */
     private final UserRepository userRepository;
 
+    /**
+     * The default constructor
+     * @param purchaseHistoryRepository
+     * @param userRepository
+     */
     @Autowired
     public RecommendationService(PurchaseHistoryRepository purchaseHistoryRepository, UserRepository userRepository) {
         this.purchaseHistoryRepository = purchaseHistoryRepository;
         this.userRepository = userRepository;
     }
 
-    // Example method to calculate Jaccard similarity
+    /**
+     * Returns how much of a similarity two users have based on their purchase history
+     *
+     * @param user1
+     * @param user2
+     * @return
+     */
     public double calculateJaccardSimilarity(User user1, User user2) {
         List<Book> booksUser1 = getBooksPurchasedByUser(user1);
         List<Book> booksUser2 = getBooksPurchasedByUser(user2);
