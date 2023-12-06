@@ -52,7 +52,7 @@ public class BookstoreController {
     @GetMapping("/customer")
     public String customerView(Model model) {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = new User(name, false);
+        User user = new User(name);
         StringBuilder storeBooks = new StringBuilder();
         StringBuilder cartBooks = new StringBuilder();
 

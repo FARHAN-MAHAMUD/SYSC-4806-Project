@@ -2,11 +2,15 @@ package com.example.sysc4806project;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents a User in the system. It is used to create
+ * Entity objects for each user, to be able to persist and update their
+ * shopping carts.
+ */
 @Entity
 @Table(name = "user1")
 public class User {
@@ -23,23 +27,18 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<PurchaseHistory> purchaseHistory;
 
-    private final boolean ownerStatus;
-
     /**
      * Default constructor for User
      */
-    public User() {
-        ownerStatus = false;
-    }
+    public User() {}
 
     /**
      * Constructor for User
      * @param name user name
      * @param ownerStatus Owner status allowing adding new books to the bookstore
      */
-    public User(String name, boolean ownerStatus) {
+    public User(String name) {
         this.name = name;
-        this.ownerStatus = ownerStatus;
         this.shoppingCart = new HashMap<>();
     }
 
@@ -92,6 +91,12 @@ public class User {
         return shoppingCart;
     }
 
+    /**
+     * Adds a book to the users shopping cart.
+     * 
+     * @param book Book, book to be added to the cart.
+     * @param quantity int, amount of the book to be added.
+     */
     public void addBookToCart(Book book, int quantity){
         int newAmount = quantity;
 
@@ -102,6 +107,12 @@ public class User {
         this.shoppingCart.put(book, newAmount);
     }
 
+    /**
+     * Removes a book from the users shopping cart.
+     * 
+     * @param book Book, book to be removed from the cart.
+     * @param quantity int, amount of the book to be removed.
+     */
     public int removeBookFromCart(Book book, int quantity){
         int newAmount;
 

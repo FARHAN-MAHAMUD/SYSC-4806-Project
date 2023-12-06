@@ -2,8 +2,6 @@ package com.example.sysc4806project;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
@@ -17,8 +15,6 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import static org.springframework.security.authorization.AuthorityAuthorizationManager.hasRole;
 
 /**
  * Configuration used to configure Spring's Security (as of spring boot 2.7.0+)
@@ -53,22 +49,6 @@ public class SecurityConfig {
                 .csrf((csrf) -> csrf
                     .disable());
 
-
-        //Timeout
-        /*
-        http.sessionManagement()
-                .sessionFixation()
-                .newSession()
-                .invalidSessionUrl("/login")
-                .maximumSessions(1)
-                .maxSessionsPreventsLogin(false)
-                .expiredUrl("/login")
-                .and()
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                .sessionAuthenticationErrorUrl("/login")
-                .maximumSessions(1)
-                .maxSessionsPreventsLogin(false);*/
-
         return http.build();
     }
 
@@ -78,7 +58,6 @@ public class SecurityConfig {
      */
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        //return (web) -> web.ignoring().requestMatchers("/hello");
         // Ignore requests that match what's specified, in this case h2 route shouldn't interfere
         return web -> web.ignoring().requestMatchers(
                 new AntPathRequestMatcher("/h2-console/**"));

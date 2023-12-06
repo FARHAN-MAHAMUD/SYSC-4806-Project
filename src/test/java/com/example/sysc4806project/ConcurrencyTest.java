@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.context.annotation.Import;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import java.util.concurrent.ExecutorService;
@@ -97,7 +96,6 @@ public class ConcurrencyTest {
         // Response Asserted
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
-        //System.out.println(response.getBody());
         return response.getBody();
     }
     private String makeGetRequestWithUser() {

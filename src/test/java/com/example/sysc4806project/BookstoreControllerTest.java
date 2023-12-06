@@ -40,7 +40,6 @@ public class BookstoreControllerTest {
         // Test adding this book and verifying the save method was used on the bookRepository
         bookstore.setBook(existingBook);
         Mockito.verify(bookRepository, Mockito.times(1)).save(existingBook);
-        // assertEquals(true, bookRepository.existsByISBN(existingBook.getISBN()));
 
         // Test updating this existing book
         existingBook.setPrice(32);
@@ -54,7 +53,6 @@ public class BookstoreControllerTest {
         Mockito.verify(bookRepository, Mockito.times(0)).save(newBook);
         bookstore.setBook(newBook);
         Mockito.verify(bookRepository, Mockito.times(1)).save(newBook);
-        // assertEquals(newBook, bookRepository.findByISBN(newBook.getISBN()));
     }
 
     /**
@@ -100,10 +98,6 @@ public class BookstoreControllerTest {
 
         // Test removing a book that exists in the inventory
         bookstore.removeBook(book.getISBN());
-        // Verify that the inventory entry is deleted, and the removal is successful (by checking delete invocation)
-        //NOTE: this currently does not invoke so it is left commented out for now
-        //Mockito.verify(bookRepository, Mockito.times(1)).delete(book);
-        //Mockito.verify(bookRepository).delete(book);
     }
 
     /**
