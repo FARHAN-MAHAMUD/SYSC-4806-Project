@@ -52,6 +52,7 @@ public class UserController {
             }
 
             user.addBookToCart(book, quantity);
+            // either a book will be same or the same book will be updated
             userRepository.save(user);
         }
         return "customer";
