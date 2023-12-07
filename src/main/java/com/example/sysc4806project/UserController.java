@@ -39,11 +39,11 @@ public class UserController {
      */
     @PostMapping("/customer/addBookToCart")
     public String addItemToCart(@RequestParam("id") long id, @RequestParam("quantity") int quantity, @RequestParam("isbn") long isbn) {
+        Book book = bookstoreRepository.findByISBN(isbn);
 
-        if (quantity > 0) {
+        if (quantity > 0 & book.getQuantity() > 0) {
             User user = userRepository.findById(id);
-            Book book = bookstoreRepository.findByISBN(isbn);
-            
+
             // ensure that customers cart does not contain more of the book than is in inventory
             if (user.getShoppingCart().containsKey(book)) {
                 int cartQuantity = user.getShoppingCart().get(book);

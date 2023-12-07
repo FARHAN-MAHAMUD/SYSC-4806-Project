@@ -107,13 +107,10 @@ public class BookstoreController {
     public void purchaseBook(@RequestParam("quantity") int quantity, @RequestBody Book book) {
         // Check if the book is in stock
         Book existingBook = bookstoreRepository.findByISBN(book.getISBN());
-        if (existingBook != null && existingBook.getQuantity() > quantity) {
+        if (existingBook != null && existingBook.getQuantity() >= quantity) {
             // Update the inventory
             existingBook.setQuantity(existingBook.getQuantity() - quantity);
             bookstoreRepository.save(existingBook);
-        }
-        else if (existingBook != null && quantity == existingBook.getQuantity()) {
-            bookstoreRepository.delete(existingBook);
         }
     }
 
