@@ -83,6 +83,9 @@ public class ConcurrencyTest {
         executorService.shutdown();
     }
 
+    /**
+     * Get request used in makePostRequestWithOwner to see all the books in the store.
+     */
     private String makeGetRequestWithOwner() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
@@ -98,6 +101,10 @@ public class ConcurrencyTest {
         assertThat(response.getStatusCodeValue()).isEqualTo(200);
         return response.getBody();
     }
+
+    /**
+     * Get request used in makePostRequestWithUser to see a user's cart contents.
+     */
     private String makeGetRequestWithUser() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
@@ -116,7 +123,8 @@ public class ConcurrencyTest {
     }
 
     /**
-     * Get request makes sure there is a user created when using customerView (temporary fix)
+     * Get request used in makePostRequestWithUserTest to create a user.
+     * It makes sure there is a user created when using customerView (temporary fix).
      */
     private void makeGetRequestToHaveAUser() {
         HttpHeaders headers = new HttpHeaders();
@@ -134,6 +142,9 @@ public class ConcurrencyTest {
     }
 
 
+    /**
+     * Test for an owner to make a request to add a book for users to buy.
+     */
     private void makePostRequestWithOwner() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
@@ -162,7 +173,7 @@ public class ConcurrencyTest {
     }
 
     /**
-     * Put something in shopping cart
+     * Test for a user to make a request to place something in shopping cart.
      */
     private void makePostRequestWithUser() {
         HttpHeaders headers = new HttpHeaders();

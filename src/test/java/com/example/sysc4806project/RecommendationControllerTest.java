@@ -87,7 +87,7 @@ class RecommendationControllerTest {
         );
 
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
-        //assertThat(responseEntity.getBody()).contains("Book1", "Book2");
+        assertThat(responseEntity.getBody()).contains("Book1", "Book2");
 
         System.out.println("Response: " + responseEntity.getBody());
     }

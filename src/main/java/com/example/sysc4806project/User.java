@@ -19,7 +19,7 @@ public class User {
     @GeneratedValue
     private long user_id;
 
-    private String name = "Default";
+    private String name = "Default"; // Stores the User's username
 
     @ElementCollection
     private Map<Book, Integer> shoppingCart;

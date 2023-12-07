@@ -47,7 +47,6 @@ public class RecommendationController {
      */
     @GetMapping("/recommendations")
     public String getRecommendations(@RequestParam("userId") long userId) {
-        //User currentUser = userRepository.findById(userId);
         // Grab the current user based on username
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userRepository.findByName(name);
