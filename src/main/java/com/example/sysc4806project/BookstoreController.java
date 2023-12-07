@@ -104,22 +104,17 @@ public class BookstoreController {
      * @param quantity The quantity of the book to purchase.
      * @return True if the purchase was successful, false if the book is not in stock or the requested quantity exceeds the available quantity.
      */
-    public float purchaseBook(@RequestParam("quantity") int quantity, @RequestBody Book book) {
+    public void purchaseBook(@RequestParam("quantity") int quantity, @RequestBody Book book) {
         // Check if the book is in stock
         Book existingBook = bookstoreRepository.findByISBN(book.getISBN());
-        if (existingBook != null && existingBook.getQuantity() >= quantity) {
+        if (existingBook != null && existingBook.getQuantity() > quantity) {
             // Update the inventory
             existingBook.setQuantity(existingBook.getQuantity() - quantity);
             bookstoreRepository.save(existingBook);
-            return quantity * existingBook.getPrice();
         }
-        else if (existingBook != null && quantity > existingBook.getQuantity()) {
-            System.out.println("A");
-            float price = existingBook.getPrice() * existingBook.getQuantity();
-            removeBook(existingBook.getISBN());
-            return price;
+        else if (existingBook != null && quantity == existingBook.getQuantity()) {
+            bookstoreRepository.delete(existingBook);
         }
-        return 0f;
     }
 
     /**

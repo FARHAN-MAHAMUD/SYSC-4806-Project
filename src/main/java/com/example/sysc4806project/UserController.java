@@ -43,9 +43,18 @@ public class UserController {
         if (quantity > 0) {
             User user = userRepository.findById(id);
             Book book = bookstoreRepository.findByISBN(isbn);
-
-            if (quantity > book.getQuantity()) {
-                quantity = book.getQuantity();
+            
+            // ensure that customers cart does not contain more of the book than is in inventory
+            if (user.getShoppingCart().containsKey(book)) {
+                int cartQuantity = user.getShoppingCart().get(book);
+                if (quantity + cartQuantity > book.getQuantity() ) {
+                    quantity = book.getQuantity() - cartQuantity;
+                }
+            }
+            else {
+                if (quantity  > book.getQuantity() ) {
+                    quantity = book.getQuantity();
+                }
             }
 
             user.addBookToCart(book, quantity);
@@ -89,6 +98,7 @@ public class UserController {
 
             try {
                 for (Map.Entry<Book, Integer> entry : user.getShoppingCart().entrySet()) {
+                    bookstoreController.purchaseBook(entry.getValue(), entry.getKey());
 
                     // Add a record to the purchase history
                     PurchaseHistory purchaseRecord = new PurchaseHistory();
