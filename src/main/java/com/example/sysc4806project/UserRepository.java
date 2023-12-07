@@ -21,4 +21,11 @@ public interface UserRepository extends CrudRepository<User, Long> {
      * Returns a list of all Users existing in the store repository.
      */
     List<User> findAll();
+
+    /**
+     * Used to find a user by their username
+     * @param name String, the name of the user
+     * @return User, an object representing a user of the store.
+     */
+    User findByName(String name);
 }

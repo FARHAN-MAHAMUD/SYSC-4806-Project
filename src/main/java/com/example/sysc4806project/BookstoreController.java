@@ -52,17 +52,25 @@ public class BookstoreController {
     @GetMapping("/customer")
     public String customerView(Model model) {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = new User(name);
+        User user;
+        // If the user doesn't exist with that username, create and store in database (not permanent since its H2)
+        if (userRepository.findByName(name) == null) {
+            System.out.println("DOESNT EXIST YET");
+            user = new User(name); // automatically sets a generated id
+            userRepository.save(user);
+            // Default book (optional)
+            Book book1 = new Book("A", "A", 1L, 10, 111);
+            bookstoreRepository.save(book1);
+        } else {
+            System.out.println("EXISTS");
+            user = userRepository.findByName(name);
+        }
+
         StringBuilder storeBooks = new StringBuilder();
         StringBuilder cartBooks = new StringBuilder();
 
-        if(!userRepository.existsById(1L)) {
-            Book book1 = new Book("A", "A", 1L, 10, 111);
-            bookstoreRepository.save(book1);
-            userRepository.save(user);
-        }
         bookstoreRepository.findAll().forEach(book -> storeBooks.append(book.toString() + "\n"));
-        userRepository.findById(1).getShoppingCart().forEach((book, amount) -> cartBooks.append(book.toString() + " | Amount in cart: " + amount + "\n"));
+        userRepository.findById(user.getUser_id()).getShoppingCart().forEach((book, amount) -> cartBooks.append(book.toString() + " | Amount in cart: " + amount + "\n"));
 
         model.addAttribute("name", name);
         model.addAttribute("books", storeBooks.toString());
@@ -203,7 +211,8 @@ public class BookstoreController {
     @GetMapping("/getCart")
     @ResponseBody
     public ResponseEntity<List<Map<String, Object>>> getCart() {
-        User user = userRepository.findById(1L);
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByName(name);
         Map<Book, Integer> shoppingCart = user.getShoppingCart();
 
         List<Map<String, Object>> cartList = new ArrayList<>();

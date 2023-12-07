@@ -1,6 +1,7 @@
 package com.example.sysc4806project;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +42,9 @@ public class UserController {
     public String addItemToCart(@RequestParam("id") long id, @RequestParam("quantity") int quantity, @RequestParam("isbn") long isbn) {
 
         if (quantity > 0) {
-            User user = userRepository.findById(id);
+            //User user = userRepository.findById(id);
+            String name = SecurityContextHolder.getContext().getAuthentication().getName();
+            User user = userRepository.findByName(name);
             Book book = bookstoreRepository.findByISBN(isbn);
 
             if (quantity > book.getQuantity()) {
@@ -64,7 +67,9 @@ public class UserController {
     public String removeItemFromCart(@RequestParam("id") long id, @RequestParam("quantity") int quantity, @RequestParam("isbn") long isbn) {
 
         if (quantity > 0) {
-            User user = userRepository.findById(id);
+            //User user = userRepository.findById(id);
+            String name = SecurityContextHolder.getContext().getAuthentication().getName();
+            User user = userRepository.findByName(name);
             Book book = bookstoreRepository.findByISBN(isbn);
 
             user.removeBookFromCart(book, quantity);
@@ -83,9 +88,11 @@ public class UserController {
     public String checkoutUser(@RequestParam("id") long id) {
 
         System.out.println(userRepository.existsById(id));
-
-        if (userRepository.existsById(id)) {
-            User user = userRepository.findById(id);
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        //if (userRepository.existsById(id)) {
+        if (userRepository.findByName(name) != null) {
+            //User user = userRepository.findById(id);
+            User user = userRepository.findByName(name);
             float price = 0.0F;
 
             try {

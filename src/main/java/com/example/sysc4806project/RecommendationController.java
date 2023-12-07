@@ -1,6 +1,7 @@
 package com.example.sysc4806project;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,7 +47,9 @@ public class RecommendationController {
      */
     @GetMapping("/recommendations")
     public String getRecommendations(@RequestParam("userId") long userId) {
-        User currentUser = userRepository.findById(userId);
+        //User currentUser = userRepository.findById(userId);
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userRepository.findByName(name);
 
         if (currentUser != null) {
             // Get a list of users sorted by Jaccard similarity
