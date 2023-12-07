@@ -66,7 +66,7 @@ public class BookstoreControllerTest {
         Mockito.when(bookRepository.findByISBN(book.getISBN())).thenReturn(book);
 
         // Test purchasing a book with sufficient inventory
-        assertEquals(32 * 5, bookstore.purchaseBook(5,book));
+        bookstore.purchaseBook(5,book);
 
         // Verify that the repository is updated and the purchase is successful (save invocation = successful purchase)
         Mockito.verify(bookRepository, Mockito.times(1)).save(book);
@@ -76,7 +76,7 @@ public class BookstoreControllerTest {
         assertEquals(5, book.getQuantity());
 
         // Test purchasing a book with insufficient quantity of books
-        assertEquals(32 * 5, bookstore.purchaseBook(20, book));
+       bookstore.purchaseBook(20, book);
 
         // Verify that the bookRepository is not updated and the purchase fails (save invocation should still be 1)
         Mockito.verify(bookRepository, Mockito.times(1)).save(book);

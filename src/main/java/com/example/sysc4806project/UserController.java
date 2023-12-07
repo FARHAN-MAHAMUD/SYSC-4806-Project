@@ -39,13 +39,22 @@ public class UserController {
      */
     @PostMapping("/customer/addBookToCart")
     public String addItemToCart(@RequestParam("id") long id, @RequestParam("quantity") int quantity, @RequestParam("isbn") long isbn) {
+        Book book = bookstoreRepository.findByISBN(isbn);
 
-        if (quantity > 0) {
+        if (quantity > 0 & book.getQuantity() > 0) {
             User user = userRepository.findById(id);
-            Book book = bookstoreRepository.findByISBN(isbn);
 
-            if (quantity > book.getQuantity()) {
-                quantity = book.getQuantity();
+            // ensure that customers cart does not contain more of the book than is in inventory
+            if (user.getShoppingCart().containsKey(book)) {
+                int cartQuantity = user.getShoppingCart().get(book);
+                if (quantity + cartQuantity > book.getQuantity() ) {
+                    quantity = book.getQuantity() - cartQuantity;
+                }
+            }
+            else {
+                if (quantity  > book.getQuantity() ) {
+                    quantity = book.getQuantity();
+                }
             }
 
             user.addBookToCart(book, quantity);
@@ -86,11 +95,10 @@ public class UserController {
 
         if (userRepository.existsById(id)) {
             User user = userRepository.findById(id);
-            float price = 0.0F;
 
             try {
                 for (Map.Entry<Book, Integer> entry : user.getShoppingCart().entrySet()) {
-                    price += bookstoreController.purchaseBook(entry.getValue(), entry.getKey());
+                    bookstoreController.purchaseBook(entry.getValue(), entry.getKey());
 
                     // Add a record to the purchase history
                     PurchaseHistory purchaseRecord = new PurchaseHistory();
@@ -105,7 +113,6 @@ public class UserController {
             user.getShoppingCart().clear();
             userRepository.save(user);
         }
-//        return price;
         return "customer";
     }
 

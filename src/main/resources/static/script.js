@@ -207,10 +207,15 @@ $(document).ready(function () {
 
                 // Manipulate the DOM to update the cart information
                 const cartContainer = $('#checkoutCartForm');
+                const priceContainer = $('#priceTotal')
                 cartContainer.empty(); // Clear previous content
+                priceContainer.empty();
 
                 // Create an unordered list for the cart items
                 const cartList = $('<ul>').addClass('cart-list');
+
+                // count total price of books in cart
+                totalPrice = 0;
 
                 // Iterate over the array of cart items and create list items for each
                 displayCart.forEach((cartItem) => {
@@ -220,6 +225,9 @@ $(document).ready(function () {
                     const price = cartItem.Price;
                     const available = cartItem.Available;
                     const quantity = cartItem.Quantity;
+
+                    // add price of book to price total
+                    totalPrice += price * quantity;
 
                     // Create list item with data attributes for ISBN and quantity
                     const cartItemElement = $('<li>')
@@ -235,6 +243,7 @@ $(document).ready(function () {
 
                 // Append the list to the cart container
                 cartContainer.append(cartList);
+                priceContainer.append("Total Price: $" + totalPrice);
             })
             .fail((err) => {
                 console.error(err);
