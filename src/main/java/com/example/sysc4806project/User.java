@@ -102,10 +102,10 @@ public class User {
 
         if (this.shoppingCart.containsKey(book)){
             newAmount += this.shoppingCart.get(book);
-        } else {
-            // If the book doesn't exist, add it in
-            this.shoppingCart.put(book, newAmount);
         }
+        
+        // If the book doesn't exist, add it in
+        this.shoppingCart.put(book, newAmount);
     }
 
     /**
