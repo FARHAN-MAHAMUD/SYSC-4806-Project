@@ -58,9 +58,17 @@ public class BookstoreController {
             System.out.println("DOESNT EXIST YET");
             user = new User(name); // automatically sets a generated id
             userRepository.save(user);
-            // Default book (optional)
-            Book book1 = new Book("A", "A", 1L, 10, 111);
-            bookstoreRepository.save(book1);
+            if (bookstoreRepository.findByISBN(1L) == null) {
+                // Default books
+                Book book1 = new Book("Lebron James Autobiography", "Subear Jama", 1L, 10, 111);
+                Book book2 = new Book("To Save a Hummingbird", "Unknown", 2L, 15, 222);
+                Book book3 = new Book("Now I Know My ABCs", "Dr Seuss", 3L, 13,333);
+                Book book4 = new Book("2023 Freshman XXL Cipher", "Patrick Vafoie", 4L, 20,444);
+                bookstoreRepository.save(book1);
+                bookstoreRepository.save(book2);
+                bookstoreRepository.save(book3);
+                bookstoreRepository.save(book4);
+            }
         } else {
             System.out.println("EXISTS");
             user = userRepository.findByName(name);

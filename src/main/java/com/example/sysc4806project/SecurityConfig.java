@@ -81,8 +81,19 @@ public class SecurityConfig {
                         .password(passwordEncoder().encode("userPassword"))
                         .roles("USER")
                         .build();
+        UserDetails user3 =
+                User.withUsername("owner2")
+                        .password(passwordEncoder().encode("ownerPassword"))
+                        .roles("OWNER")
+                        .build();
+        UserDetails user4 =
+                User.withUsername("user2")
+                        .password(passwordEncoder().encode("userPassword"))
+                        .roles("USER")
+                        .build();
 
-       return new InMemoryUserDetailsManager(user1,user2);
+
+       return new InMemoryUserDetailsManager(user1,user2, user3, user4);
     }
 
     /**
