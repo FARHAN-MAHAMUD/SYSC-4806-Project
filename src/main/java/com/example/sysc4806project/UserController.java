@@ -86,11 +86,9 @@ public class UserController {
 
         if (userRepository.existsById(id)) {
             User user = userRepository.findById(id);
-            float price = 0.0F;
 
             try {
                 for (Map.Entry<Book, Integer> entry : user.getShoppingCart().entrySet()) {
-                    price += bookstoreController.purchaseBook(entry.getValue(), entry.getKey());
 
                     // Add a record to the purchase history
                     PurchaseHistory purchaseRecord = new PurchaseHistory();
@@ -105,7 +103,6 @@ public class UserController {
             user.getShoppingCart().clear();
             userRepository.save(user);
         }
-//        return price;
         return "customer";
     }
 
