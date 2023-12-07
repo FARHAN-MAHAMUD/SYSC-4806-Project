@@ -19,7 +19,7 @@ public class User {
     @GeneratedValue
     private long user_id;
 
-    private String name = "Default";
+    private String name = "Default"; // Stores the User's username
 
     @ElementCollection
     private Map<Book, Integer> shoppingCart;
@@ -102,9 +102,10 @@ public class User {
 
         if (this.shoppingCart.containsKey(book)){
             newAmount += this.shoppingCart.get(book);
+        } else {
+            // If the book doesn't exist, add it in
+            this.shoppingCart.put(book, newAmount);
         }
-
-        this.shoppingCart.put(book, newAmount);
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.example.sysc4806project;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,10 +40,11 @@ public class UserController {
      */
     @PostMapping("/customer/addBookToCart")
     public String addItemToCart(@RequestParam("id") long id, @RequestParam("quantity") int quantity, @RequestParam("isbn") long isbn) {
-        Book book = bookstoreRepository.findByISBN(isbn);
 
-        if (quantity > 0 & book.getQuantity() > 0) {
-            User user = userRepository.findById(id);
+        if (quantity > 0) {
+            String name = SecurityContextHolder.getContext().getAuthentication().getName();
+            User user = userRepository.findByName(name);
+            Book book = bookstoreRepository.findByISBN(isbn);
 
             // ensure that customers cart does not contain more of the book than is in inventory
             if (user.getShoppingCart().containsKey(book)) {
@@ -58,6 +60,7 @@ public class UserController {
             }
 
             user.addBookToCart(book, quantity);
+            // either a book will be same or the same book will be updated
             userRepository.save(user);
         }
         return "customer";
@@ -73,7 +76,8 @@ public class UserController {
     public String removeItemFromCart(@RequestParam("id") long id, @RequestParam("quantity") int quantity, @RequestParam("isbn") long isbn) {
 
         if (quantity > 0) {
-            User user = userRepository.findById(id);
+            String name = SecurityContextHolder.getContext().getAuthentication().getName();
+            User user = userRepository.findByName(name);
             Book book = bookstoreRepository.findByISBN(isbn);
 
             user.removeBookFromCart(book, quantity);
@@ -93,8 +97,11 @@ public class UserController {
 
         System.out.println(userRepository.existsById(id));
 
-        if (userRepository.existsById(id)) {
-            User user = userRepository.findById(id);
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        if (userRepository.findByName(name) != null) {
+            User user = userRepository.findByName(name);
+            float price = 0.0F;
 
             try {
                 for (Map.Entry<Book, Integer> entry : user.getShoppingCart().entrySet()) {
