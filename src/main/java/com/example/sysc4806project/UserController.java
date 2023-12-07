@@ -40,7 +40,6 @@ public class UserController {
      */
     @PostMapping("/customer/addBookToCart")
     public String addItemToCart(@RequestParam("id") long id, @RequestParam("quantity") int quantity, @RequestParam("isbn") long isbn) {
-        Book book = bookstoreRepository.findByISBN(isbn);
 
         if (quantity > 0) {
             //User user = userRepository.findById(id);
