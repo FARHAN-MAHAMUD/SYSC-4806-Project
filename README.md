@@ -30,9 +30,11 @@ In this milestone, we have built an alpha release. The main goals for this miles
   - Be very close to being feature complete
   - Have most features be usable and correctly deployed on Azure
 
-# Additions for Future Milestones:
-  - Finalize the implementation of all remaining features
-  - Finish the project
+## Milestone 3 (December 8, 2023):
+In this milestone, we have built a final version of our code. The main goals for this milestone are the following
+  - Create a feature complete system
+  - Make the system fully usable
+  - Fixed any deployment issues found in the previous milestone
 
 # Responsibilities for Milestone 1
   - Farhan: Repository creation, CI/CD actions, README file, ORM and UML Diagram, and Azure Deployment
@@ -47,7 +49,14 @@ In this milestone, we have built an alpha release. The main goals for this miles
   - Jacob: Created AWS repo for this project and changed default view to user view unless user is an owner, as well as added the AJAX calls to auto refresh
   - Patrick: Implemented book recommendation feature and integrated feature fully with front end + corresponding tests
   - Ilyes: Implemented purchaseBook backend feature in both controllers and backend checkout use case + corresponding tests and concurrency tests + README file
-   
+
+# Responsibilities for Milestone 3
+  - Farhan: Fixed the "negative books" glitch that could change the databse consistency and the corresponding front-end code + JavaDoc + README
+  - Subear: Persist accounts with users in the repository + UML diagram + ORM diagram
+  - Jacob: Fixed homepage and added it into the website flow as the first page + JavaDoc
+  - Patrick: Added UI/UX code to add/remove selected books + finish UI changes + refactor code
+  - Ilyes: Add a pop-up when checking out that lists the content of the cart before buying + refactor code
+
 # Diagrams
 Object-Role-Modeling
 ![ORM Diagram](diagrams/ORM_M3.png)
