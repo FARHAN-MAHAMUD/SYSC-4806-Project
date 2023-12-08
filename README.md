@@ -50,7 +50,10 @@ In this milestone, we have built an alpha release. The main goals for this miles
    
 # Diagrams
 Object-Role-Modeling
-![ORM Diagram](diagrams/SYSC4806Project-ORM.png)
+![ORM Diagram](diagrams/ORM_M3.png)
 
 Unified-Modeling-Language
-![UML Diagram](diagrams/UML_M2.png)
+![UML Diagram](diagrams/UML_M3.png)
+
+Object-Role-Modeling Generated
+![ORM Diagram](diagrams/ORM_M3_Generated.png)
