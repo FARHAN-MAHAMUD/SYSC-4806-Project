@@ -21,11 +21,13 @@ public class BookstoreController {
 
     private final BookstoreRepository bookstoreRepository;
     private final UserRepository userRepository;
+    private final PurchaseHistoryRepository purchaseHistoryRepository;
 
     @Autowired
-    public BookstoreController(BookstoreRepository bookstoreRepository, UserRepository userRepository) {
+    public BookstoreController(BookstoreRepository bookstoreRepository, UserRepository userRepository, PurchaseHistoryRepository purchaseHistoryRepository) {
         this.bookstoreRepository = bookstoreRepository;
         this.userRepository = userRepository;
+        this.purchaseHistoryRepository = purchaseHistoryRepository;
     }
 
     /**
@@ -145,6 +147,9 @@ public class BookstoreController {
         if (bookExists) {
             Book existingBook = bookstoreRepository.findByISBN(isbn);
             System.out.println(existingBook);
+            for (PurchaseHistory purchaseHistory: purchaseHistoryRepository.findByBook(existingBook)) {
+                purchaseHistoryRepository.delete(purchaseHistory);
+            }
             bookstoreRepository.delete(existingBook);
         }
         return "owner";
