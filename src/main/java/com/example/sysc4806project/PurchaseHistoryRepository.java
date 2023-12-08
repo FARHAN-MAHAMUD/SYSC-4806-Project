@@ -14,4 +14,11 @@ public interface PurchaseHistoryRepository extends CrudRepository<PurchaseHistor
      * @return
      */
     List<PurchaseHistory> findByUser(User user);
+
+    /**
+     * Gets a list of purchases based on the given book
+     * @param user
+     * @return
+     */
+    List<PurchaseHistory> findByBook(Book book);
 }
